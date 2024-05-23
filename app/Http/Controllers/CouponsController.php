@@ -14,39 +14,29 @@ public function coupon(Request $request) {
         return response()->json($coupons);
     }
 
-    $coupons = Coupons::all(); // Fetch coupons data
+     $coupons = Coupons::orderByRaw('CAST(`order` AS SIGNED) ASC')->get();
     return view('admin.coupons.index', compact('coupons'));
 }
 
     
-    public function update(Request $request)
-    {
-        try {
-            $orderData = $request->order;
-    
-            // Extract IDs from the order data
-            $ids = collect($orderData)->pluck('id')->toArray();
-    
-            // Fetch the existing records from the database in the order they were received
-            $existingRecords = Coupons::whereIn('id', $ids)->get();
-    
-            // Create a map of ID to record for quick lookup
-            $recordMap = $existingRecords->keyBy('id');
-    
-            foreach ($orderData as $order) {
-                // Check if the record exists
-                if ($record = $recordMap->get($order['id'])) {
-                    // Update the order only if the record exists
-                    $record->update(['order' => $order['position']]);
-                }
-            }
-    
-            return response()->json(['status' => 'success', 'message' => 'Update Successfully.']);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
-        }
-    }
 
+public function update(Request $request)
+{
+    try {
+        $orderData = $request->order;
+
+        // Loop through the order data and update the order column for each coupon
+        foreach ($orderData as $order) {
+            $coupon = Coupons::find($order['id']);
+            $coupon->order = $order['position'];
+            $coupon->save();
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Update Successfully.']);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+}
     public function create_coupon() {
         $stores = Stores::all();
         return view('admin.coupons.create', compact('stores'));
@@ -94,4 +84,16 @@ public function coupon(Request $request) {
         Coupons::find($id)->delete();
         return redirect()->back()->with('success', 'Coupon Deleted Successfully');
     }
+            
+public function deleteSelected(Request $request)
+{
+    $couponIds = $request->input('selected_coupons');
+
+    if ($couponIds) {
+        Coupons::whereIn('id', $couponIds)->delete();
+        return redirect()->back()->with('success', 'Selected coupons deleted successfully');
+    } else {
+        return redirect()->back()->with('error', 'No coupons selected for deletion');
+    }
+}
 }

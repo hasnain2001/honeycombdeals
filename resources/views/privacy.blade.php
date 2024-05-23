@@ -1,18 +1,50 @@
+<?php
+header("X-Robots-Tag:index, follow");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy</title>
-      <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
-  <!-- Bootstrap CSS -->
+   <title>Privacy & policy | Honeycomb Deals</title>
+    <!-- Your custom meta tags go here -->
+     <meta name="description" content="Find the best deals, discounts, and coupons on Honeycomb Deals. Save money on your favorite products from top brands.">
+
+ <meta name="keywords" content="deals, discounts, coupons, savings, affiliate marketing">
+
+  <meta name="author" content="John Doe">
+ <meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://honeycombdeals.com/privacy">
+
+  <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
+     <link rel="icon" href="{{ asset('front/assets/images/logo-01.png') }}"  type="image/x-icon">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="{{ asset('front/assets/css/style.css') }}">
 
-</head>
+ <style>
+
+     .navbar{
+            background-color: rgb(87, 18, 124);
+        }
+        
+        .form-container {
+            max-width: 600px; /* Adjust max-width as needed */
+            width: 100%;
+        }
+        .form-container form {
+            display: flex;
+            justify-content: center; /* Center contents horizontally */
+            align-items: center;
+        }
+        .social-icons a {
+            color: white; /* Change icon color as needed */
+            margin-left: 10px; /* Adjust margin between icons as needed */
+            font-size: 25px; /* Adjust icon size as needed */
+        }
+  </style>
 <body>
 
 
@@ -122,7 +154,7 @@
           </ul>
         </div>
         <div class="col-md-6 order-md-1">
-          <p class="text-muted"><strong>Last Updated:</strong> October 2023</p>
+          <p class="text-muted"><strong>Last Updated:</strong> April 2024</p>
           <p>This Privacy Policy explains how Honeycombdeals.com collects, uses, and protects your personal information when you use our services. By using our services, you agree to the terms outlined in this policy. If you don't agree, please refrain from using Honeycombdeals.com.</p>
         </div>
       </div>

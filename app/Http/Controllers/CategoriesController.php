@@ -8,12 +8,6 @@ use App\Models\Stores;
 
 class CategoriesController extends Controller
 {
-    
-      public function categories() {
-        $category = Categories::all();
-        return view('categories', compact('categoy'));
-    }
-    
     public function category() {
         $categories = Categories::all();
         return view('admin.categories.index', compact('categories'));
@@ -28,12 +22,11 @@ class CategoriesController extends Controller
         {
             $file = request()->File('category_image');
             $CategoryImage = md5($file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
-            $file->move('./uploads/', $CategoryImage);
+            $file->move('./uploads/categories', $CategoryImage);
         }
 
         Categories::create([
             'title' => $request->title,
-             'meta_title' => $request->meta_title,
             'meta_tag' => $request->meta_tag,
             'meta_keyword' => $request->meta_keyword,
             'meta_description' => $request->meta_description,
@@ -57,12 +50,11 @@ class CategoriesController extends Controller
         {
             $file = request()->File('category_image');
             $CategoryImage = md5($file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
-            $file->move('./uploads/', $CategoryImage);
+            $file->move('./uploads/categories', $CategoryImage);
         }
 
         $categories->update([
             'title' => $request->title,
-             'meta_title' => $request->meta_title,
             'meta_tag' => $request->meta_tag,
             'meta_keyword' => $request->meta_keyword,
             'meta_description' => $request->meta_description,
@@ -78,5 +70,20 @@ class CategoriesController extends Controller
         Categories::find($id)->delete();
         return redirect()->back()->with('success', 'Category Deleted Successfully');
     }
+    
+    
+public function deleteSelected(Request $request)
+{
+    $categoryIds = $request->input('selected_categories');
+
+    if ($categoryIds) {
+        Categories::whereIn('id', $categoryIds)->delete();
+        return redirect()->back()->with('success', 'Selected categories deleted successfully');
+    } else {
+        return redirect()->back()->with('error', 'No categories selected for deletion');
+    }
+}
+
+
 
 }

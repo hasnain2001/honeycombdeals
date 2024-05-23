@@ -14,8 +14,9 @@ header("X-Robots-Tag:index, follow");
   <meta name="author" content="John Doe">
  <meta name="robots" content="index, follow">
 
-<link rel="canonical" href="https://deals69.com/categories">
+<link rel="canonical" href="https://honeycombdeals.com/categories">
 
+    <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
 
 
  
@@ -30,44 +31,7 @@ header("X-Robots-Tag:index, follow");
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta name="impact-site-verification" value="de4ec733-7974-4b7d-a7aa-611819cb6e0f">
     
-    
-    
-    
-    
-    
-    
-        <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: white;
-        }
-        nav {
-            background-color: rgb(93, 25, 130);
-        }
-        section {
-            background-color: rgb(87, 18, 124);
-        }
-        .container {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .form-container {
-            max-width: 600px; /* Adjust max-width as needed */
-            width: 100%;
-        }
-        .form-container form {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .social-icons a {
-            color: white; /* Change icon color as needed */
-            margin-left: 10px; /* Adjust margin between icons as needed */
-            font-size: 25px; /* Adjust icon size as needed */
-        }
-    </style>
+        <link rel="stylesheet" href="{{ asset('front/assets/css/home.css')}}">
 </head>
 <body>
     <!--<div class="top_header">-->
@@ -155,37 +119,43 @@ header("X-Robots-Tag:index, follow");
 
 
 </header>
-   
-    <main>
-        <div class="main_content">
-            <div class="container">
-                <div class="row mt-3">
-                    <h1>Categories</h1>
-@foreach ($category as $category)
-    <div class="col-12 col-lg-3 mb-3">
-<a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-decoration-none">
+  <main>
+<div class="main_content">
+  <div class="container">
+    <div class="row mt-3">
+      <h1 class="text-center display-4">Our Categories</h1>
 
-            <div class="card shadow p-3">
-                <div class="card-body">
-                    @if ($category->category_image)
-                        <img width="150px" src="{{ asset('uploads/' . $category->category_image) }}" alt="{{ $category->title }} Image">
-                    @else
-                        <p>No image available</p>
-                    @endif
-                    <h5 class="card-title mt-3 mx-2">{{ $category->title }}</h5>
-                </div>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        @foreach ($category as $category)
+          <div class="col">
+            <div class="card shadow-sm h-100 overflow-hidden">
+              <a href="{{ url('related_category/'. Str::slug($category->title)) }}" >
+                @if ($category->category_image)
+                  <img src="{{ asset('uploads/categories/' . $category->category_image) }}" class="card-img-top" alt="{{ $category->title }} Image">
+                @else
+                  <div class="d-flex align-items-center justify-content-center vh-100 bg-light text-muted">
+                    <i class="fas fa-image fa-3x"></i>
+                    <p class="ms-2">No image available</p>
+                  </div>
+                @endif
+              </a>
+              <div class="card-body d-flex flex-column justify-content-between">
+                <a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-dark text-decoration-none stretched-link">
+                  <h5 class="card-title">{{ $category->title }}</h5>
+                </a>
+                <!--<a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="btn btn-primary mt-auto">Explore Now</a>-->
+              </div>
             </div>
-        </a>
+          </div>
+        @endforeach
+      </div>
     </div>
-@endforeach
+  </div>
+</div>
 
 
+</main>
 
-
-                </div>
-            </div>
-        </div>
-    </main>
     <x-alert/>
     
     

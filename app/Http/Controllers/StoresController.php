@@ -112,5 +112,18 @@ public function update_store(Request $request, $id)
         Stores::find($id)->delete();
         return redirect()->back()->with('success', 'Store Deleted Successfully');
     }
+    public function deleteSelected(Request $request)
+    {
+        $storeIds = $request->input('selected_stores');
+
+        if ($storeIds) {
+            // Delete only the stores
+            Stores::whereIn('id', $storeIds)->delete();
+
+            return redirect()->back()->with('success', 'Selected stores deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'No stores selected for deletion');
+        }
+    }
     
 }

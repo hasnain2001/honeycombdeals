@@ -17,8 +17,9 @@ class DemoController extends Controller
   
        public function blog_home()
     {
-        $blogs = Blog::all(); // Fetch blog data
-     $chunks = Stores::inRandomOrder()->limit(25)->get();
+          $blogs = Blog::paginate(5); // Paginate blogs with 10 items per page
+    $chunks = Stores::latest()->limit(25)->get();
+
         return view('blog', compact('blogs', 'chunks')); // Pass both data to the view
     }
 
@@ -34,8 +35,10 @@ public function blog_show($title) {
 
     // Retrieve the blog post from the database based on the decoded title
     $blog = Blog::where('title', $decodedTitle)->firstOrFail();
+     $chunks = Stores::latest()->limit(25)->get();
+
     
-    return view('blog-details', compact('blog'));
+    return view('blog-details', compact('blog','chunks'));
 }
 
 
@@ -223,4 +226,32 @@ public function destroy($id)
         $blogs = Blog::paginate(10); // Paginate your data, specifying the number of items per page
         return view('admin.Blog', compact('blogs'));
     }
+       public function deleteSelected(Request $request)
+    {
+        $selectedIds = $request->input('selected_blogs');
+
+        if ($selectedIds) {
+            // Delete the selected blog entries
+            Blog::whereIn('id', $selectedIds)->delete();
+
+            return redirect()->back()->with('success', 'Selected blog entries deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'No blog entries selected for deletion.');
+        }
+    }
+    
+public function bulkDelete(Request $request)
+    {
+        $selectedBlogs = $request->input('selected_blogs');
+
+        if ($selectedBlogs) {
+            Blog::whereIn('id', $selectedBlogs)->delete();
+            return redirect()->back()->with('success', 'Selected blog entries deleted successfully.');
+        }
+
+       return redirect()->back()->with('error', 'No blog entries selected for deletion.');
+    }
+
+
+
 }

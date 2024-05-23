@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Models\Blog;
 use App\Models\Stores;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,15 +33,25 @@ Route::get('/', function () {
 
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
+
+
 Route::get('/privacy', function () {
     return view('privacy');
-});
+})->name('privacy');
 
 
 Route::get('/term-and-condition', function () {
     return view('term-and-condition');
-});
+})->name('term-and-condition');
+
+
+
+
+Route::post('logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 
 
 // Route for the contact
@@ -65,13 +76,6 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search_results', [SearchController::class, 'searchResults'])->name('search_results');
 
 
-
-
-
-
-
-
-Route::get('/master', [HomeController::class, 'showRelatedBlogs'])->name('related-blogs');
 Route::get('/categories', [HomeController::class, 'categories'])->name('categories');
 
 Route::get('/related_category/{title}', [HomeController::class, 'RelatedCategoryStores'])->name('related_category');
@@ -83,7 +87,18 @@ Route::get('/related_category/{title}', [HomeController::class, 'RelatedCategory
 
 
 
-
+Route::get('/blog', [DemoController::class, 'blog_home'])->name('blog');
+Route::get('/blog/{title}', [DemoController::class, 'blog_show'])->name('blog-details');
+Route::prefix('admin')->group(function () {
+    Route::get('/Blog', [DemoController::class, 'blog'])->name('admin.blog');
+    Route::get('/Blog/create', [DemoController::class, 'create'])->name('admin.blog.create');
+    Route::post('/Blog/store', [DemoController::class, 'store'])->name('admin.blog.store');
+    Route::get('/Blog/{id}/edit', [DemoController::class, 'edit'])->name('admin.blog.edit');
+    Route::post('/admin/Blog/update/{id}', [DemoController::class, 'update'])->name('admin.Blog.update');
+    Route::delete('/admin/Blog/{id}', [DemoController::class, 'destroy'])->name('admin.blog.delete');
+    Route::post('/blog/deleteSelected', [DemoController::class, 'deleteSelected'])->name('admin.blog.deleteSelected');
+    Route::delete('/blog/bulk-delete', [DemoController::class, 'deleteSelected'])->name('admin.blog.bulkDelete');
+});
 
 
 
@@ -100,8 +115,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/stores', 'stores')->name('stores');
     Route::get('/store/{name}', 'StoreDetails')->name('store_details');
+    Route::get('/related-category/{title}', 'relatedcategories')->name('related_category');
   
-
 });
 
 Route::get('/dashboard', function () {
@@ -114,18 +129,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Blog Routes Begin
-Route::prefix('admin')->group(function () {
-    Route::get('/Blog', [DemoController::class, 'blog'])->name('admin.blog');
-    Route::get('/Blog/create', [DemoController::class, 'create'])->name('admin.blog.create');
-    Route::post('/Blog/store', [DemoController::class, 'store'])->name('admin.blog.store');
-    Route::get('/Blog/{id}/edit', [DemoController::class, 'edit'])->name('admin.blog.edit');
-    Route::post('/admin/Blog/update/{id}', [DemoController::class, 'update'])->name('admin.Blog.update');
-    Route::delete('/admin/Blog/{id}', [DemoController::class, 'destroy'])->name('admin.blog.delete');
-    
-Route::get('/blog', [DemoController::class, 'blog_home'])->name('blog');
-Route::get('/blog-details/{title}', [DemoController::class, 'blog_show'])->name('blog-details');
-});
 // Stores Routes Begin
 Route::controller(StoresController::class)->prefix('admin')->group(function () {
     Route::get('/store', 'store')->name('admin.store');
@@ -134,6 +137,8 @@ Route::controller(StoresController::class)->prefix('admin')->group(function () {
     Route::get('/store/edit/{id}', 'edit_store')->name('admin.store.edit');
     Route::post('/store/update/{id}', 'update_store')->name('admin.store.update');
     Route::get('/store/delete/{id}', 'delete_store')->name('admin.store.delete');
+     Route::post('/store/deleteSelected', 'deleteSelected')->name('admin.store.deleteSelected');
+
 });
 
 // Categories Routes Begin
@@ -144,6 +149,7 @@ Route::controller(CategoriesController::class)->prefix('admin')->group(function 
     Route::get('/category/edit/{id}', 'edit_category')->name('admin.category.edit');
     Route::post('/category/update/{id}', 'update_category')->name('admin.category.update');
     Route::get('/category/delete/{id}', 'delete_category')->name('admin.category.delete');
+     Route::post('/category/deleteSelected', 'deleteSelected')->name('admin.category.deleteSelected');
 });
 
 // Networks Routes Begin
@@ -157,11 +163,7 @@ Route::controller(NetworksController::class)->prefix('admin')->group(function ()
 });
 
 // Coupons Routes Begin
-Route::get('coupons', [CouponsController::class, 'index'])->name('coupons.index');
-
-Route::get('/coupon/fetch', [CouponsController::class, 'fetchCoupons'])->name('admin.coupon.fetch');
-
-Route::post('/coupon/update-order', [CouponsController::class, ''])->name('admin.coupon.updatePosition');
+Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
 
 
 Route::controller(CouponsController::class)->prefix('admin')->group(function () {
@@ -172,6 +174,7 @@ Route::controller(CouponsController::class)->prefix('admin')->group(function () 
     Route::post('/coupon/update/{id}', 'update_coupon')->name('admin.coupon.update');
     Route::get('/coupon/delete/{id}', 'delete_coupon')->name('admin.coupon.delete');
     Route::post('/custom-sortable', 'update')->name('custom-sortable');
+    Route::post('/coupon/deleteSelected', 'deleteSelected')->name('admin.coupon.deleteSelected');
 });
 
 require __DIR__.'/auth.php';

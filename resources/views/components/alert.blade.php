@@ -32,14 +32,15 @@
           <img src="{{ asset('front/assets/images/logo-footer.jpg') }}" width="150px" alt=""> <!-- Increased the width to 180px -->
         </a>
         <div class="footer-section" style="font-size: 14px; color: #fff;">
-          <a href="about"><h6>About Us</h6></a>
+<a href="{{ route('about') }}"><h6>About Us</h6></a>
+
           <p>Welcome to Honeycombdeals! Discover deals, promo codes, comparisons, and money-saving insights for savvy shoppers.</p>
         </div>
       </div>
       <div class="col-md-4 d-none d-sm-block">
         <div class="footer-section" style="font-size: 14px; color: #fff;">
-          <a href="privacy"><h6>Privacy Policy</h6></a>
-          <a href="term-and-condition"><h6>Terms and Conditions</h6></a>
+          <a href="{{ route('privacy') }}"><h6>Privacy Policy</h6></a>
+          <a href="{{ route('term-and-condition') }}"><h6>Terms and Conditions</h6></a>
         </div>
       </div>
       <div class="col-md-4 col-sm-6">
@@ -55,7 +56,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="alpha">
-          <p style="font-size: 12px;"><a href="https://alphaisoft.com" target="blank" class="text-white">Developed by AlphaIsoft</a></p>
+          <p style="font-size: 12px;"><a href="https://alphaisoft.com" target="blank" class="text-white">Developed by Alpha Ai Solution</a></p>
         </div>
       </div>
     </div>

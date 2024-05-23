@@ -14,8 +14,9 @@ header("X-Robots-Tag:index, follow");
   <meta name="author" content="John Doe">
  <meta name="robots" content="index, follow">
 
-<link rel="canonical" href="https://www.honeycombdeals.com/stores">
+<link rel="canonical" href="https://honeycombdeals.com/stores">
 
+    <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
 
 
  
@@ -29,45 +30,14 @@ header("X-Robots-Tag:index, follow");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta name="impact-site-verification" value="de4ec733-7974-4b7d-a7aa-611819cb6e0f">
+    <link rel="stylesheet" href="{{ asset('front/assets/css/home.css')}}">
     
     
     
     
     
     
-    
-        <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: white;
-        }
-        nav {
-            background-color: rgb(93, 25, 130);
-        }
-        section {
-            background-color: rgb(87, 18, 124);
-        }
-        .container {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .form-container {
-            max-width: 600px; /* Adjust max-width as needed */
-            width: 100%;
-        }
-        .form-container form {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .social-icons a {
-            color: white; /* Change icon color as needed */
-            margin-left: 10px; /* Adjust margin between icons as needed */
-            font-size: 25px; /* Adjust icon size as needed */
-        }
-    </style>
+       
 </head>
 <body>
    
@@ -149,35 +119,46 @@ header("X-Robots-Tag:index, follow");
         </div>
     </nav>
 </header>
-    <main>
-        <div class="main_content">
-            <div class="container">
-                <div class="row mt-3">
-                    <h1>Stores</h1>
-                    @foreach ($stores as $store)
-                        <div class="col-12 col-lg-3">
-                            <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-decoration-none">
-                                <div class="card shadow">
-                                    <div class="card-body">
-                                        <img src="{{ $store->store_image ? asset('uploads/store/' . $store->store_image) : asset('front/assets/images/no-image-found.jpg') }}" width="100%" alt="">
-                                        <h5 class="card-title mt-3 mx-2">{{ $store->name ?: "Title not found" }}</h5>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-                <div class="container bg-light">
-  <div class="row mt-3 justify-content-end">
-    <div class="col-12">
-        {{ $stores->links('pagination::bootstrap-4') }} <!-- Display pagination links -->
-    </div>
-</div>
-</div>
-                </div>
+<main>
+  <div class="main_content">
+    <div class="container">
+      <div class="row mt-3">
+        <h1 class="text-center display-4"> Popular Stores</h1>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+  @foreach ($stores as $store)
+    <div class="col">
+      <div class="card shadow-sm h-100 overflow-hidden">
+        <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}">
+          @if ($store->store_image)
+            <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="card-img-top" alt="{{ $store->name }} Image">
+          @else
+            <div class="d-flex align-items-center justify-content-center vh-100 bg-light text-muted">
+              <i class="fas fa-store fa-3x"></i>  <p class="ms-2">No image available</p>
             </div>
+          @endif
+        </a>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-dark text-decoration-none stretched-link">
+            <h5 class="card-title">{{ $store->name ?: "Title not found" }}</h5>
+          </a>
         </div>
-    </main>
-   
+      </div>
+    </div>
+  @endforeach
+</div>
+
+
+        <div class="container bg-light mt-3">
+          <div class="row mt-3 justify-content-end">
+            <div class="col-12">
+              {{ $stores->links('pagination::bootstrap-4') }} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
     
     
     

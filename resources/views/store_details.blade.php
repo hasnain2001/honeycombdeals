@@ -1,24 +1,19 @@
 <?php
 header("X-Robots-Tag:index, follow");
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Your custom meta tags go here -->
-
-
-  <meta name="author" content="John Doe">
- <meta name="robots" content="index, follow">
-
-@if(isset($store) && is_object($store))
+ @if(isset($store) && is_object($store))
      <title>{!! $store->title !!}</title>
     <link rel="canonical" href="https://honeycombdeals.com/store/{{ Str::slug($store->name) }}">
         <meta name="description" content="{!! $store->meta_description !!}">
 
  <meta name="keywords" content="{!! $store->meta_keyword !!}">
+   <meta name="author" content="John Doe">
+ <meta name="robots" content="index, follow">
+
 @else
     <!-- Handle the case where $store is not valid -->
     <!-- You can display a default canonical URL or handle it in another appropriate way -->
@@ -26,10 +21,10 @@ header("X-Robots-Tag:index, follow");
 @endif
 
 
+    <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
 
 
-
-
+ 
     <!-- Bootstrap CSS v5.3.2 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -39,54 +34,17 @@ header("X-Robots-Tag:index, follow");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <meta name="impact-site-verification" value="de4ec733-7974-4b7d-a7aa-611819cb6e0f">
 
+        <link rel="stylesheet" href="{{ asset('front/assets/css/home.css')}}">
 
-
-
-
-
-
-        <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: white;
-        }
-        nav {
-            background-color: rgb(93, 25, 130);
-        }
-        section {
-            background-color: rgb(87, 18, 124);
-        }
-        .container {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .form-container {
-            max-width: 600px; /* Adjust max-width as needed */
-            width: 100%;
-        }
-        .form-container form {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .social-icons a {
-            color: white; /* Change icon color as needed */
-            margin-left: 10px; /* Adjust margin between icons as needed */
-            font-size: 25px; /* Adjust icon size as needed */
-        }
-    </style>
 </head>
 <body>
-
+   
 <!--<div class="top_header">-->
 <!--    <div class="container-fluid">-->
 <!--        <div class="row align-items-center">-->
 <!--            <div class="col-6 col-lg-4">-->
-
+             
 <!--            </div>-->
 <!--            <div class="col-6 col-lg-8">-->
 <!--                <div class="row align-items-center">-->
@@ -159,15 +117,8 @@ header("X-Robots-Tag:index, follow");
             </div>
         </div>
     </nav>
-
-    <!-- Top Navbar Section -->
-
-            <!-- Search Form -->
-
-
-
 </header>
-
+<main>
 <div class="container">
     <div class="row mt-5">
         @if ($store)
@@ -177,7 +128,7 @@ header("X-Robots-Tag:index, follow");
                     <div class="card-body">
                         <img src="{{ asset('uploads/store/' . $store->store_image) }}" width="100%" alt="{{ $store->name }}">
                         @if ($store->description)
-                            <p class="mt-2 mx-2 store_detail_description">{!! $store->description !!}</p>
+                            <p class=" store_detail_description ">{!! $store->description !!}</p>
                         @endif
                         <a href="{{ $store->url }}" target="_blank" class="visit_store_btn mb-3">Visit Store</a>
                     </div>
@@ -186,85 +137,88 @@ header("X-Robots-Tag:index, follow");
         @endif
   <div class="col-12 col-lg-9">
     <div class="row mb-3">
+         @php
+                    $codeCount = 0;
+                    $dealCount = 0;
+                @endphp
         @foreach ($coupons as $coupon)
      <div class="col-12 col-lg-4 col-sm-12 mb-3">
     <div class="card h-100">
         <div class="card-body">
-            <h5 class="card-title">{{ trim($coupon->name) }}</h5>
-
+            <h5 class="card-title">{{ $coupon->name }}</h5>
             @if ($coupon->description)
                 <p class="card-text">{!! $coupon->description !!}</p>
             @endif
             @if ($coupon->code)
+             @php $codeCount++; @endphp
                 <a href="#" class="get" id="getCode{{ $coupon->id }}" onclick="openCouponInNewTab('{{ $coupon->destination_url }}', '{{ $coupon->id }}')">Code & Activate</a>
             @else
+                                                        @php $dealCount++; @endphp
                 <a href="{{ $coupon->destination_url }}" class="get" target="_blank">Get Deal</a>
             @endif
         </div>
     </div>
-</div>
-<div class="modal fade" id="codeModal{{ $coupon->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $coupon->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel{{ $coupon->id }}">{{ $coupon->name }}</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h3>{{ $coupon->code ? $coupon->code : "Code not found" }}</h3>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-dark" onclick="copyCoupon('{{ $coupon->code }}')">Copy</button>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 
-
+            <div class="modal fade" id="codeModal{{ $coupon->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $coupon->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel{{ $coupon->id }}">{{ $coupon->name }}</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>{{ $coupon->code ? $coupon->code : "Code not found" }}</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endforeach
     </div>
+<div class="totals mt-3 d-none d-lg-block">
+    <div class="p-3 border rounded" style="background-color: #f8f9fa;">
+        <h4 class="mb-3" style="font-weight: bold;">Summary</h4>
+        <p style="font-size: 1.2em; margin: 0;">
+            <i class="fas fa-tag me-2"></i>Total Codes: 
+            <span class="badge bg-primary">{{ $codeCount }}</span>
+        </p>
+        <p style="font-size: 1.2em; margin: 0;">
+            <i class="fas fa-shopping-cart me-2"></i>Total Deals: 
+            <span class="badge bg-success">{{ $dealCount }}</span>
+        </p>
+        @php
+            $totalCount = $codeCount + $dealCount;
+        @endphp
+        <p style="font-size: 1.2em; margin: 0;">
+          Total: 
+            <span class="badge bg-info">{{ $totalCount }}</span>
+        </p>
+    </div>
+</div>
+
+
 </div>
 
 
     </div>
 </div>
-
-
-<br><br><br>
-    <x-alert/>
-
-
-    <script>
-        function copyCoupon(code) {
-            navigator.clipboard.writeText(code)
-                .then(() => {
-                    alert("Coupon code copied!");
-                })
-                .catch((error) => {
-                    console.error("Failed to copy: ", error);
-                });
-        }
-    </script>
-
-  <script>
+  <!-- Totals Section, only visible on desktop -->
+            
+    
+    
+     <x-alert/>
+    
+       <script>
         function openCouponInNewTab(url, couponId) {
             window.open(url, '_blank');
             var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));
             modal.show();
         }
-
-
-        public function show($storeId)
-{
-    $coupons = Coupon::where('store_id', $storeId)
-                      ->orderBy('position')
-                      ->get();
-
-    return view('store-detail', compact('coupons'));
-}
-
     </script>
     <script>
 $(document).ready(function() {
@@ -311,4 +265,3 @@ $(document).ready(function() {
     integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>
-

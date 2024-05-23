@@ -58,7 +58,7 @@
        @error('title')
         <span class="text-danger">{{ $message }}</span>
     @enderror
-    <input type="text" class="form-control" name="title" id="name">
+    <input type="text" class="form-control" name="title" id="name" value="{{ $stores->title }} ">
  
 </div>
 
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="store_image">Store Image <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="store_image" id="store_image" required>
+                                    <input type="file" class="form-control" name="store_image" id="store_image" value="{{ $stores->store_image }}">
                                 </div>
                             </div>
                         </div>

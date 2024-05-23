@@ -15,47 +15,20 @@ class HomeController extends Controller
     
   
     public function index() {
-    $store = Stores::latest()->paginate(25);
+    $store = Stores::latest()->paginate(24);
     $categories = Categories::latest()->paginate(6);
-    $blogs = Blog::inRandomOrder()->limit(6)->get();
+       $blogs = Blog::all();
       $topCoupons = Coupons::latest()->paginate(20);
     return view('home', compact('store', 'categories', 'blogs','topCoupons'));
 }
 
 
 
-public function showcoupons($storeId)
-{
- $store = Stores::find($storeId);
-    $coupons = Coupons::where('store_id', $storeId)->paginate(10);
-
-    return view('store_coupons', ['store' => $store, 'coupons' => $coupons]);
-}
 
 
 
 
-public function products($category_slug) {
-    $categories = Categories::where('meta_tag', $category_slug)->first();
-    if ($categories) {
-        $products = $categories->products()->get();
-        return view ('related_category_stores', compact('categories', 'products'));
-    } else {
-        return redirect()->back();
-    }
-}
-public function showDiscountCodes($name)
-{
-    // Assuming you have a model called Store
-    $stores = Stores::where('name', $name)->get();
 
-    // Check if any stores were found
-    if ($stores->count() > 0) {
-        return view('related_category_stores', ['name' => $name, 'stores' => $stores]);
-    } else {
-        return view('related_category_stores', ['name' => $name, 'stores' => null]);
-    }
-}
 
 
    public function stores()
@@ -108,18 +81,18 @@ public function RelatedCategoryStores($title)
     $stores = Stores::where('category', $name)->get();
     
     // Retrieve all categories
-    $categories = Categories::all();
+    $category = Categories::all();
     
     // Pass the stores, category name, and categories to the view
-    return view('related_category', compact('stores', 'name', 'categories'));
+    return view('related_category', compact('stores', 'name', 'category'));
 }
 
 
 
-    public function storesByCategory($meta_tag)
+    public function storesByCategory($title)
     {
         // Assuming you're fetching the category based on the meta_tag
-        $category = Categories::where('title', $meta_tag)->first();
+        $category = Categories::where('title', $title)->first();
 
         if (!$category) {
             abort(404); // Or handle the case when category is not found

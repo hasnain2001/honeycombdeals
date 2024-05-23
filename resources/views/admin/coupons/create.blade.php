@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" cols="30" rows="5" style="resize: none;"></textarea>
+                                    <textarea name="description" id="description" class="form-control" cols="30" rows="5" style="resize: none;" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="code">Code</label>
@@ -42,11 +42,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="destination_url">Destination URL <span class="text-danger">*</span></label>
-                                    <input type="url" class="form-control" name="destination_url" id="destination_url">
+                                    <input type="url" class="form-control" name="destination_url" id="destination_url" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="ending_date">Ending Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="ending_date" id="ending_date">
+                                    <input type="date" class="form-control" name="ending_date" id="ending_date" required>
                                 </div>
                             </div>
                         </div>
@@ -56,8 +56,8 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="status">Status <span class="text-danger">*</span></label><br>
-                                    <input type="radio" name="status" id="enable" value="enable">&nbsp;<label for="enable">Enable</label>
-                                    <input type="radio" name="status" id="disable" value="disable">&nbsp;<label for="disable">Disable</label>
+                                    <input type="radio" name="status" id="enable" value="enable">&nbsp;<label for="enable" required>Enable</label>
+                                    <input type="radio" name="status" id="disable" value="disable">&nbsp;<label for="disable" required>Disable</label>
                                 </div>
                                 <div class="form-group">
                                     <label for="authentication">Authentication</label><br>

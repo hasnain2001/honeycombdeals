@@ -4,79 +4,47 @@
 @endsection
 @section('main-content')
 
-        <style>
-      
-    .coupon-card {
-        width: 100%; /* Set the width of the card */
-    }
-
-        .get {
-    color: #fff;
-    background-color: #800080; /* Purple color */
-    border-color: #800080; /* Purple color */
-    border-radius: 5px; /* Border radius of 5px */
-    padding: 8px 20px; /* Adjust padding to increase width */
-    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+<style>
+.carousel-item {
+    background-color: transparent;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.get:hover {
-    background-color: #fff; /* White background on hover */
-    border-color: #800080; /* Purple border color on hover */
-    color: #800080; /* Text color on hover */
+.carousel-indicators {
+    bottom: 20px;
 }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .image-list {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 20px;
-            padding-bottom: 20px;
-        }
-        .image-list li {
-            list-style: none;
-        }
-        .image-item-fluid {
-            border-radius: 10px;
-            transition: transform 0.2s ease-in-out;
-        }
-        .image-item-fluid:hover {
-            transform: scale(1.1);
-        }
-        .fw-bold {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-        }
-   .carousel-control-prev, 
-    .carousel-control-next {
-        font-size: 1rem !important;
-        width: 40px !important;
-        height: 30px !important;
-        line-height: 30px !important;
-        background-color:transparent;
-    }
 
-  .coupon-card {
-    border-radius: 10px; /* Rounded corners */
-  }
+.carousel-indicators button {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 0.7;
+    transition: opacity 0.3s, transform 0.3s;
+    border: 1px solid #000; /* Add border for better visibility */
+    margin: 0 5px; /* Add spacing between indicators */
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+    background-color: #000;
+    transform: scale(1.2); /* Scale up the active indicator */
+}
+
+
 </style>
 
 
-<x-slider/>
 
 
 <br>
  
+<div class="container"><h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1></div>
 
-<h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1>
 <div class="container">
     <div id="storeCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            @foreach ($store->chunk(5) as $key => $chunk)
+            @foreach ($store->chunk(6) as $key => $chunk)
                 <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                     <div class="row">
                         @foreach ($chunk as $storeItem)
@@ -91,11 +59,11 @@
                 </div>
             @endforeach
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
+        <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
+        <button class="carousel-control-next bg-dark" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -106,8 +74,8 @@
 
 
 
-<br><br>
-<h2 class="fw-bold home_ts_h2">Today's Top Trending Coupons & Voucher Codes</h2>
+<br><br><div class="container"><h2 class="fw-bold home_ts_h2">Today's Top Trending Coupons & Voucher Codes</h2></div>
+
 <div class="container mt-4">
   <div class="row row-cols-1 row-cols-md-3 g-4">
     @forelse ($topCoupons as $coupon)
@@ -161,107 +129,55 @@
 
 
 
-
-    <div class="row mt-5">
-        <h2 class="fw-bold home_ts_h2">Top Categories</h2>
-        @foreach ($categories as $category)
-            <div class="col-12 col-lg-2 col-md-4 col-sm-12 ">
-           <a href="{{ url('related_category/'. Str::slug($category->meta_tag)) }}" class="text-decoration-none">
-
-
-                  <div class="stores home_top_stores shadow p-3">
-                     @if ($category->category_image)
-                        <img  src="{{ asset('uploads/' . $category->category_image) }}" alt="{{ $category->title }} Image"  width="100%" height="150">
+<div class="row mt-5" style="max-width: 95rem;">
+    <h2 class="fw-bold home_ts_h2 text-center">Top Categories</h2>
+    @foreach ($categories as $category)
+        <div class="col-12 col-lg-2 col-md-4 col-sm-12 mb-4">
+            <a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-decoration-none">
+                <div class="stores home_top_stores shadow p-3 text-center" style="height: 300px;">
+                    @if ($category->category_image)
+                        <img src="{{ asset('uploads/categories/' . $category->category_image) }}" alt="{{ $category->title }} Image" style="width: 150px; height: 150px; object-fit: cover;">
                     @else
                         <p>No image available</p>
                     @endif
-                      <span class="fw-bold">{{ $category->title }}</span>
-                  </div>
-                </a>
-            </div>
-        @endforeach
-    </div>
+                    <span class="fw-bold d-block mt-2 text-dark">{{ $category->title }}</span>
+                </div>
+            </a>
+        </div>
+    @endforeach
+</div>
+
 
 
 <br><br><br>
-
-<h2 class="fw-bold home_ts_h2">Shopping Hacks & Savings Tips & Tricks</h2>
+<div class="col-12">
+  <h2 class="fw-bold home_ts_h2 text-center">Shopping Hacks & Savings Tips & Tricks</h2>
+</div>
 <div class="container bg-light">
  
- <br><br>
-
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner bg-light">
-        @foreach ($blogs->chunk(3) as $chunk)
-            <div class="carousel-item{{ $loop->first ? ' active' : '' }}">
-                <div class="container bg-light">
-                    <div class="row">
-                        @foreach ($chunk as $blog)
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="img-fluid" src="{{ asset($blog->category_image) }}" alt="Blog Post Image">
-                                        <h5 class="card-title">{{ $blog->title }}</h5>
-                                        <p class="card-text">{{ $blog->excerpt }}</p>
-                                    <a href="{{ route('blog-details', ['title' => Str::slug($blog->title)]) }}" class="btn btn-dark">Read More </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+      @foreach ($blogs->chunk(20) as $chunk)
+        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+          <div class="d-flex flex-row flex-nowrap overflow-auto">
+            @foreach ($chunk as $blog)
+              <div class="col-md-4 mb-3 flex-shrink-0">
+                <div class="card shadow-sm h-100">
+                  <img class="cardimg card-img-top img-fluid" src="{{ asset($blog->category_image) }}" alt="Blog Post Image" style="height:200px; width:450px;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ $blog->title }}</h5>
+                    <p class="card-text">{{ $blog->excerpt }}</p>
+                    <a href="{{ route('blog-details', ['title' => Str::slug($blog->title)]) }}" class="btn btn-dark stretched-link">Read More</a>
+                  </div>
                 </div>
-            </div>
-        @endforeach
+              </div>
+            @endforeach
+          </div>
+        </div>
+      @endforeach
     </div>
-</div>
-
-</div>
-
-<script>
-    function copyCoupon(code) {
-        navigator.clipboard.writeText(code)
-            .then(() => {
-                alert("Coupon code copied!");
-            })
-            .catch((error) => {
-                console.error("Failed to copy: ", error);
-            });
-    }
-    
-    function openCouponInNewTab(url, couponId) {
-        window.open(url, '_blank');
-        var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));
-        modal.show();
-        
-        // Automatically close the modal after 5 seconds when hovered over
-        setTimeout(function() {
-            modal.hide();
-        }, 3000); // 5000 milliseconds = 5 seconds
-    }
-</script>
-  <script>
-    function copyCoupon(code) {
-        navigator.clipboard.writeText(code)
-            .then(() => {
-                alert("Coupon code copied!");
-            })
-            .catch((error) => {
-                console.error("Failed to copy: ", error);
-            });
-    }
-    
-    function openCouponInNewTab(url, couponId) {
-        window.open(url, '_blank');
-        var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));
-        modal.show();
-        
-        // Automatically close the modal after 5 seconds when hovered over
-        setTimeout(function() {
-            modal.hide();
-        }, 5000); // 5000 milliseconds = 5 seconds
-    }
-</script>
-
   
-  <script src="{{ asset('front/assets/js/java.js') }}"></script>
+  </div>
+</div>
+  
+
 @endsection

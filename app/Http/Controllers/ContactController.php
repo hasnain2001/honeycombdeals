@@ -29,7 +29,7 @@ public function send(Request $request)
         Mail::to('hasnainalikhan2001@gmail.com')->send(new ContactMail($request->all()));
 
         // Return a response indicating success
-        return response()->json(['message' => 'Email sent successfully'], 200);
+        return redirect()->back()->with('success', 'email send  Successfully');
     } catch (ValidationException $e) {
         // If validation fails, return the validation errors
         return response()->json(['errors' => $e->validator->errors()], 422);

@@ -90,32 +90,63 @@
             throw fetch("/cdn-cgi/zaraz/t"), e;
         };
     </script>
+        <style>
+        .navbar-username {
+    font-size: 1.40rem; /* Adjust the size as needed */
+}
+
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+<nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars text-primary"></i></a>
+    </li>
+  </ul>
 
 
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown">
+      @if (Auth::check())
+        <a class="nav-link navbar-username dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle text-success"></i>
+          <span class="text-dark font-weight-bold">{{ Auth::user()->name }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">Profile</span>
+          <div class="dropdown-divider"></div>
+          <a href="profile" class="dropdown-item">
+            <i class="fas fa-user mr-2 text-primary"></i> My Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt mr-2 text-danger"></i> Logout
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
+        </div>
+      @else
+        <a class="nav-link" href="{{ route('login') }}">
+          <i class="far fa-user-circle"></i>
+          Guest
+        </a>
+      @endif
+    </li>
+  </ul>
+</nav>
 
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('logout') }}" class="nav-link">Logout</a>
-                </li>
-            </ul>
-        </nav>
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
+<a href="{{ route('dashboard') }}" class="brand-link">
+    <img src="{{ asset('front/assets/images/icon.png') }}" alt="AdminLTE Logo"
+        class="brand-image img-circle elevation-3" style="max-width: 100px;">
+    <span class="brand-text font-weight-light d-none d-sm-inline">HoneyCombDeals</span>
+</a>
 
-            <a href="{{ route('dashboard') }}" class="brand-link">
-                <img src="{{ asset('') }}admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">HoneyCombDeals</span>
-            </a>
 
             <div class="sidebar">
 
@@ -172,7 +203,7 @@
                                 </li>
                             </ul>
                         </li>
-
+                        
                     </ul>
                 </nav>
 
@@ -195,7 +226,7 @@
         <aside class="control-sidebar control-sidebar-dark">
 
         </aside>
-
+        
 
     </div>
 
@@ -239,10 +270,10 @@
                 "autoWidth": false,
                 "responsive": true,
             });
-    
+            
             $('#SearchTable').DataTable();
-    
-            $("#tablecontents").sortable({
+            
+             $( "#tablecontents" ).sortable({
                 items: "tr",
                 cursor: 'move',
                 opacity: 0.6,
@@ -250,37 +281,37 @@
                     sendOrderToServer();
                 }
             });
-    
+
             function sendOrderToServer() {
-                var order = [];
-                var token = $('meta[name="csrf-token"]').attr('content');
-                $('tr.row1').each(function(index, element) {
-                    order.push({
-                        id: $(this).attr('data-id'),
-                        position: index + 1
-                    });
+              var order = [];
+              var token = $('meta[name="csrf-token"]').attr('content');
+            //   by this function User can Update hisOrders or Move to top or under
+              $('tr.row1').each(function(index,element) {
+                order.push({
+                  id: $(this).attr('data-id'),
+                  position: index+1
                 });
-    
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: "{{ route('custom-sortable') }}",
+              });
+    // the Ajax Post update 
+              $.ajax({
+                type: "POST", 
+                dataType: "json", 
+                url: "{{ route('custom-sortable') }}",
                     data: {
-                        order: order,
-                        _token: token
-                    },
-                    success: function(response) {
-                        if (response.status == "success") {
-                            console.log(response);
-                        } else {
-                            console.log(response);
-                        }
+                  order: order,
+                  _token: token
+                },
+                success: function(response) {
+                    if (response.status == "success") {
+                      console.log(response);
+                    } else {
+                      console.log(response);
                     }
-                });
+                }
+              });
             }
         });
     </script>
-    
 </body>
 
 <!-- Mirrored from adminlte.io/themes/v3/pages/tables/data.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Feb 2024 08:09:01 GMT -->

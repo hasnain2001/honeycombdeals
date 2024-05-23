@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>@yield('title') | HCD</title>
+    <title>@yield('title')Search| HCD</title>
  <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -55,6 +55,25 @@ background-color:rgb(87, 18, 124);
       margin-left: 10px; /* Adjust margin between icons as needed */
       font-size: 25px; /* Adjust icon size as needed */
     }
+.card {
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px; /* Adjust the height as needed */
+}
 
 </style>
 </head>
@@ -147,43 +166,39 @@ background-color:rgb(87, 18, 124);
 
 </header>
 
-<div class="container"> 
-    <!-- Display Stores -->
-    <h3>Search Results</h3>
-    <div class="main_content">
-        <div class="container">
-            <div class="row mt-3">
-                @if (isset($stores) && $stores->isEmpty())
-                    <div class="col-12">
-                        <h1>No stores found.</h1>
-                    </div>
-                @elseif(isset($stores))
-                    @foreach ($stores as $store)
-                        <div class="col-12 col-lg-3">
-                            @if ($store->name)
-                                <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-decoration-none">
-                            @else
-                                <a href="javascript:;" class="text-decoration-none">
-                            @endif
-                                    <div class="card shadow">
-                                        <div class="card-body">
-                                            @if ($store->store_image)
-                                                <img src="{{ asset('uploads/store/' . $store->store_image) }}" width="100%" alt="{{ $store->name }}">
-                                            @else
-                                                <img src="{{ asset('front/assets/images/no-image-found.jpg') }}" width="100%" alt="No Image Found">
-                                            @endif
-                                            <h5 class="card-title mt-3 mx-2">{{ isset($store->name) ? $store->name : "Title not found" }}</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        @endforeach
-                    @endif
+<h3>Search Results</h3>
+<div class="container">
+  <div class="row mt-3">
+    @if (isset($stores) && $stores->isEmpty())
+      <div class="col-12 text-center">
+        <h1>No stores found.</h1>
+        <p class="lead">Try refining your search terms with more specific keywords.</p>
+      </div>
+    @elseif(isset($stores))
+      <div class="row gx-4 gy-4">
+        @foreach ($stores as $store)
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow rounded-lg border border-light">
+              <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-decoration-none stretched-link d-flex flex-column h-100">
+                @if ($store->store_image)
+                  <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="card-img-top img-fluid" alt="{{ $store->name }}" style="max-width: 100%; height: 150px; object-fit: cover;">
+                @else
+                  <img src="{{ asset('front/assets/images/no-image-found.jpg') }}" class="card-img-top img-fluid" alt="No Image Found" style="max-width: 100%; height: 150px; object-fit: cover;">
+                @endif
+                <div class="card-body px-3 pb-2 d-flex flex-column justify-content-between">
+                  <h5 class="card-title text-truncate">{{ isset($store->name) ? Str::limit($store->name, 30) : "Title not found" }}</h5>
+                  {{-- Optional: Add a short store description --}}
+                  {{-- <p class="card-text text-muted">{{ Str::limit($store->description, 70) }}</p> --}}
                 </div>
+              </a>
             </div>
-        </div>
-    </div>
+          </div>
+        @endforeach
+      </div>
+    @endif
+  </div>
 </div>
+
 
         
   

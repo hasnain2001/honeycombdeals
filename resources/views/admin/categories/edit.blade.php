@@ -36,17 +36,14 @@
                                     <label for="category_image">Category Image <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="category_image" id="category_image" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="meta_title">Meta Title <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="meta_title" id="title" required>
-                                </div>
+                               
                                 <div class="form-group">
                                     <label for="meta_tag">Meta Tag <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="meta_tag" id="meta_tag" value="{{ $categories->meta_tag }}" required>
+                                    <input type="text" class="form-control" name="meta_tag" id="meta_tag" value="{{ $categories->meta_tag }}" >
                                 </div>
                                 <div class="form-group">
                                     <label for="meta_keyword">Meta Keyword <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="meta_keyword" id="meta_keyword" value="{{ $categories->meta_keyword }}" required>
+                                    <input type="text" class="form-control" name="meta_keyword" id="meta_keyword" value="{{ $categories->meta_keyword }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="meta_description">Meta Description</label>

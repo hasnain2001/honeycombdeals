@@ -11,7 +11,7 @@ class Categories extends Model
 
     protected $fillable = [
         'title',
-        'meta_title',
+        
         'meta_tag',
         'meta_keyword',
         'meta_description',
