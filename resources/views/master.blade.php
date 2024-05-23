@@ -17,7 +17,7 @@ header("X-Robots-Tag:index, follow");
     <!-- Your custom meta tags go here -->
      <meta name="description" content="Find the best deals, discounts, and coupons on Honeycomb Deals. Save money on your favorite products from top brands.">
 
- <meta name="keywords" content="deals, discounts, coupons, savings, affiliate marketing">
+ <meta name="keywords" content="deals, discounts, coupons, savings">
 
   <meta name="author" content="John Doe">
  <meta name="robots" content="index, follow">
