@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoresController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\Blog;
@@ -53,7 +54,7 @@ Route::post('logout', function () {
     return redirect('/');
 })->name('logout');
 
-
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('contact');
 // Route for the contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');

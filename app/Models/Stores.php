@@ -26,8 +26,5 @@ class Stores extends Model
         'store_image',
     ];
 
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
+    
 }

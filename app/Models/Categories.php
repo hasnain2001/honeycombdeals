@@ -19,10 +19,5 @@ class Categories extends Model
         'authentication',
         'category_image',
     ];
-    
- public function stores()
-    {
-        return $this->belongsToMany(Store::class);
-    }
-
+ 
 }

@@ -59,7 +59,14 @@ class HomeController extends Controller
         $title = ucwords(str_replace('-', ' ', $slug));
         $coupons = Coupons::where('store', $title)->orderByRaw('CAST(`order` AS SIGNED) ASC')->get();
         $store = Stores::where('name', $title)->first();
-        return view('store_details', compact('store', 'coupons'));
+    
+        // Fetch related stores
+        $relatedStores = Stores::where('category', $store->category)
+                               ->where('id', '!=', $store->id)
+                               ->take(5) // Limit the number of related stores
+                               ->get();
+    
+        return view('store_details', compact('store', 'coupons', 'relatedStores'));
     }
     
   

@@ -4,35 +4,7 @@
 @endsection
 @section('main-content')
 
-<style>
-.carousel-item {
-    background-color: transparent;
-    transition: opacity 0.5s ease-in-out;
-}
 
-.carousel-indicators {
-    bottom: 20px;
-}
-
-.carousel-indicators button {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: white;
-    opacity: 0.7;
-    transition: opacity 0.3s, transform 0.3s;
-    border: 1px solid #000; /* Add border for better visibility */
-    margin: 0 5px; /* Add spacing between indicators */
-}
-
-.carousel-indicators .active {
-    opacity: 1;
-    background-color: #000;
-    transform: scale(1.2); /* Scale up the active indicator */
-}
-
-
-</style>
 
 
 
@@ -59,14 +31,19 @@
                 </div>
             @endforeach
         </div>
-        <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+
+
+
+        <button class="store-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
+          <span class="store-prev-icon" aria-hidden="true"><i class="fa-solid fa-circle-left"></i></span>
+          <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next bg-dark" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+        
+        <button class="store-next" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
+          <span class="store-next-icon" aria-hidden="true"><i class="fa-solid fa-circle-right"></i></</span>
+          <span class="visually-hidden">Next</span>
         </button>
+        
     </div>
 </div>
 

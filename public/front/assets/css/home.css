@@ -1,87 +1,78 @@
-     body {
-            margin: 0;
-            padding: 0;
-            background-color: white;
-        }
-        nav {
-            background-color: rgb(93, 25, 130);
-        }
-        section {
-            background-color: rgb(87, 18, 124);
-        }
-        .container {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .form-container {
-            max-width: 600px; /* Adjust max-width as needed */
-            width: 100%;
-        }
-        .form-container form {
-            display: flex;
-            justify-content: center; /* Center contents horizontally */
-            align-items: center;
-        }
-        .social-icons a {
-            color: white; /* Change icon color as needed */
-            margin-left: 10px; /* Adjust margin between icons as needed */
-            font-size: 25px; /* Adjust icon size as needed */
-        }
-    .coupon-card {
-        width: 100%; /* Set the width of the card */
-    }
 
-        .get {
-    color: #fff;
-    background-color: #800080; /* Purple color */
-    border-color: #800080; /* Purple color */
-    border-radius: 5px; /* Border radius of 5px */
-    padding: 8px 20px; /* Adjust padding to increase width */
-    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+nav {
+    background-color: rgb(93, 25, 130);
+}
+
+.bg-dark {
+    background-color: #000 !important;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+
+.store {
+background-color:white; /* Slightly transparent background for better visibility */
+border-radius: 20%; /* Make the control icons circular */
+width: 20px; /* Adjust width */
+height: 20px; /* Adjust height */
+}
+.get {
+    text-align: center; /* Center text */
+color: #fff;
+background-color: #800080; /* Purple color */
+border-color: #800080; /* Purple color */
+border-radius: 5px; /* Border radius of 5px */
+padding: 8px 20px; /* Adjust padding to increase width */
+transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
 }
 
 .get:hover {
-    background-color: #fff; /* White background on hover */
-    border-color: #800080; /* Purple border color on hover */
-    color: #800080; /* Text color on hover */
+background-color: #fff; /* White background on hover */
+border-color: #800080; /* Purple border color on hover */
+color: #800080; /* Text color on hover */
 }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .image-list {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 20px;
-            padding-bottom: 20px;
-        }
-        .image-list li {
-            list-style: none;
-        }
-        .image-item-fluid {
-            border-radius: 10px;
-            transition: transform 0.2s ease-in-out;
-        }
-        .image-item-fluid:hover {
-            transform: scale(1.1);
-        }
-        .fw-bold {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-        }
-   .carousel-control-prev, 
-    .carousel-control-next {
-        font-size: 1rem !important;
-        width: 40px !important;
-        height: 30px !important;
-        line-height: 30px !important;
-        background-color:transparent;
-    }
-
-  .coupon-card {
-    border-radius: 10px; /* Rounded corners */
-  }
+.coupon-card {
+width: 100%; /* Set the width of the card */
+border-radius: 10px; /* Rounded corners */
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.image-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+.image-list li {
+    list-style: none;
+}
+.image-item-fluid {
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+.image-item-fluid:hover {
+    transform: scale(1.1);
+}
+.fw-bold {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}
+.social-icons a {
+    color: white; /* Change icon color as needed */
+    margin-left: 10px; /* Adjust margin between icons as needed */
+    font-size: 25px; /* Adjust icon size as needed */
+}
