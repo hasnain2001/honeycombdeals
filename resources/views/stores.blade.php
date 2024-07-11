@@ -124,34 +124,40 @@ header("X-Robots-Tag:index, follow");
     <div class="container">
       <div class="row mt-3">
         <h1 class="text-center display-4"> Popular Stores</h1>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-  @foreach ($stores as $store)
-    <div class="col">
-      <div class="card shadow-sm h-100 overflow-hidden">
-        <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}">
-          @if ($store->store_image)
-            <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="card-img-top" alt="{{ $store->name }} Image">
-          @else
-            <div class="d-flex align-items-center justify-content-center vh-100 bg-light text-muted">
-              <i class="fas fa-store fa-3x"></i>  <p class="ms-2">No image available</p>
-            </div>
-          @endif
-        </a>
-        <div class="card-body d-flex flex-column justify-content-between">
-          <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-dark text-decoration-none stretched-link">
-            <h5 class="card-title">{{ $store->name ?: "Title not found" }}</h5>
-          </a>
+         <p class="h5 m-0">Total stores: <span class="fw-bold">{{ $stores->total() }}</span></p>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+          @foreach ($stores as $store)
+            <div class="col">
+              <div class="card shadow-sm h-100 overflow-hidden">
+                <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}">
+              @if ($store->store_image)
+    <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="card-img-top" alt="{{ $store->name }} Image">
+@else
+    @if ($store->previous_image)
+        <img src="{{ asset('uploads/store/' . $store->previous_image) }}" class="card-img-top" alt="{{ $store->name }} Image">
+    @else
+        <div class="d-flex align-items-center justify-content-center vh-100 bg-light text-muted">
+            <i class="fas fa-store fa-3x"></i> <p class="ms-2">No image available</p>
         </div>
-      </div>
-    </div>
-  @endforeach
-</div>
+    @endif
+@endif
 
-
+                </a>
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-dark text-decoration-none stretched-link">
+                    <h5 class="card-title">{{ $store->name ?: "Title not found" }}</h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+          @endforeach
+        </div>
         <div class="container bg-light mt-3">
           <div class="row mt-3 justify-content-end">
             <div class="col-12">
-              {{ $stores->links('pagination::bootstrap-4') }} </div>
+            
+              {{ $stores->links('pagination::bootstrap-4') }}
+            </div>
           </div>
         </div>
       </div>
@@ -159,16 +165,7 @@ header("X-Robots-Tag:index, follow");
   </div>
 </main>
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
      <x-alert/>
     
     

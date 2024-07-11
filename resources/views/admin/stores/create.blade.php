@@ -34,11 +34,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" cols="30" rows="5" style="resize: none;" required></textarea>
+                                    <textarea name="description" id="description" class="form-control" cols="30" rows="12" style="resize: none;" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="url">URL <span class="text-danger">*</span></label>
-                                    <input type="url" class="form-control" name="url" id="url" required>
+                                    <input type="url" class="form-control" name="url"  required>
                                 </div>
                                 <div class="form-group">
                                     <label for="destination_url">Destination URL <span class="text-danger">*</span></label>
@@ -103,10 +103,35 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="store_image">Store Image <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="store_image" id="store_image" required>
-                                </div>
+                              <div class="form-group">
+    <label for="store_image">Store Image <span class="text-danger">*</span></label>
+    <input type="file" class="form-control" name="store_image" id="store_image" required>
+</div>
+
+<!-- Placeholder for displaying selected image -->
+<div id="imagePreview"></div>
+
+<script>
+    // JavaScript to preview the selected image
+    document.getElementById('store_image').addEventListener('change', function() {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var imgElement = document.createElement('img');
+                imgElement.setAttribute('src', event.target.result);
+                imgElement.setAttribute('class', 'preview-image'); // Optional: Add CSS class for styling
+                imgElement.setAttribute('style', 'max-width: 100%; height: auto;'); // Optional: Add styling
+                document.getElementById('imagePreview').innerHTML = ''; // Clear previous preview, if any
+                document.getElementById('imagePreview').appendChild(imgElement);
+            }
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('imagePreview').innerHTML = ''; // Clear preview if no file selected
+        }
+    });
+</script>
+
                             </div>
                         </div>
                     </div>

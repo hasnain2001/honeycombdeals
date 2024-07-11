@@ -30,24 +30,26 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="name">Coupon Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name" id="name" value="{{ $coupons->name }}" required>
+                                    <input type="text" class="form-control font-weight-bold" name="name" id="name" value="{{ $coupons->name }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" cols="30" rows="5" style="resize: none;">{{ $coupons->description }}</textarea>
+                                    <textarea name="description" id="description" class="form-control font-weight-2px" cols="30" rows="5" style="resize: none;">{{ $coupons->description }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="code">Code</label>
-                                    <input type="text" class="form-control" name="code" id="code" value="{{ $coupons->code }}">
+                                    <input type="text" class="form-control font-weight-bold" name="code" id="code" value="{{ $coupons->code }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="destination_url">Destination URL <span class="text-danger">*</span></label>
-                                    <input type="url" class="form-control" name="destination_url" id="destination_url" value="{{ $coupons->destination_url }}">
+                                    <input type="url" class="form-control font-weight-bold" name="destination_url" id="destination_url" value="{{ $coupons->destination_url }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="ending_date">Ending Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="ending_date" id="ending_date" value="{{ $coupons->ending_date }}">
-                                </div>
+    <label for="ending_date">Ending Date <span class="text-danger">*</span></label>
+  
+    <input type="date" class="form-control font-weight-bold" name="ending_date" id="ending_date" value="{{ $coupons->ending_date }}">
+</div>
+
                             </div>
                         </div>
                     </div>
@@ -73,7 +75,7 @@
                                     <select name="store" id="store" class="form-control">
                                         <option value="" disabled selected>{{ $coupons->store }}</option>
                                         @foreach($stores as $store) 
-                                            <option value="{{ $store->name }}">{{ $store->name }}</option>
+                                            <option class="text-dark font-weight-bold" value="{{ $store->name }}">{{ $store->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

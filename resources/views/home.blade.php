@@ -8,7 +8,6 @@
 
 
 
-
 <br>
  
 <div class="container"><h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1></div>
@@ -22,7 +21,7 @@
                         @foreach ($chunk as $storeItem)
                             <div class="col-md-2">
                                 <a href="{{ route('store_details', ['name' => Str::slug($storeItem->name)]) }}" class="text-dark text-decoration-none">
-                                    <img class="img-fluid mb-2" src="{{ asset('uploads/store/' . $storeItem->store_image) }}" alt="{{ $storeItem->name }}" />
+                                    <img class="img-fluid mb-2" src="{{ asset('uploads/store/' . $storeItem->store_image) }}" alt="{{ $storeItem->name }}" loading="lazy" />
                                     <span class="fw-bold d-block text-center">{{ $storeItem->name }}</span>
                                 </a>
                             </div>
@@ -31,10 +30,7 @@
                 </div>
             @endforeach
         </div>
-
-
-
-        <button class="store-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
+       <button class="store-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
           <span class="store-prev-icon" aria-hidden="true"><i class="fa-solid fa-circle-left"></i></span>
           <span class="visually-hidden">Previous</span>
         </button>
@@ -43,7 +39,6 @@
           <span class="store-next-icon" aria-hidden="true"><i class="fa-solid fa-circle-right"></i></</span>
           <span class="visually-hidden">Next</span>
         </button>
-        
     </div>
 </div>
 
@@ -57,13 +52,13 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
     @forelse ($topCoupons as $coupon)
       <div class="col">
-        <div class="coupon-card card shadow-sm border-0 rounded overflow-hidden" style="width: 280px;">  
+        <div class="coupon-card card shadow-sm border-0 rounded overflow-hidden" style="width: 380px; height:300px; ">  
           <div class="card-body d-flex flex-column justify-content-between h-100 bg-gradient-light">  
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h5 class="card-title text-dark mb-0">{{ $coupon->store }}</h5>
-              <span class="badge bg-warning text-dark rounded-pill">{{ $coupon->discount_type }}</span>  
+            
             </div>
-            <h3 class="card-text text-dark font-weight-bold mb-2">{{ $coupon->title }}</h3>
+            <h3 class="card-text text-dark  mb-2">{{ $coupon->name}}</h3>
           <p class="card-text text-dark" style="font-style: italic;">{{ Str::limit($coupon->description, 70) }}</p>
 
 
@@ -113,7 +108,7 @@
             <a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-decoration-none">
                 <div class="stores home_top_stores shadow p-3 text-center" style="height: 300px;">
                     @if ($category->category_image)
-                        <img src="{{ asset('uploads/categories/' . $category->category_image) }}" alt="{{ $category->title }} Image" style="width: 150px; height: 150px; object-fit: cover;">
+                        <img src="{{ asset('uploads/categories/' . $category->category_image) }}" alt="{{ $category->title }} Image" style="width: 150px; height: 150px; object-fit: cover;" loading="lazy">
                     @else
                         <p>No image available</p>
                     @endif
@@ -133,7 +128,7 @@
 <div class="container bg-light">
  
     <div class="carousel-inner bg-light">
-      @foreach ($blogs->chunk(20) as $chunk)
+      @foreach ($blogs->chunk(2000) as $chunk)
         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
           <div class="d-flex flex-row flex-nowrap overflow-auto">
             @foreach ($chunk as $blog)
@@ -143,7 +138,11 @@
                   <div class="card-body">
                     <h5 class="card-title">{{ $blog->title }}</h5>
                     <p class="card-text">{{ $blog->excerpt }}</p>
-                    <a href="{{ route('blog-details', ['title' => Str::slug($blog->title)]) }}" class="btn btn-dark stretched-link">Read More</a>
+                          @if ($blog->slug)
+                    <a href="{{ route('blog-details', ['slug' => Str::slug($blog->slug)]) }}" class="btn btn-dark stretched-link">Read More</a>
+                     @else
+                    <a href="javascript:;" class="btn btn-dark stretched-link"> no slug</a>
+                         @endif
                   </div>
                 </div>
               </div>

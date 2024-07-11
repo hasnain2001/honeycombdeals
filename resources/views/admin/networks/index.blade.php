@@ -48,9 +48,9 @@
                                                 <td>{{ $network->title }}</td>
                                                 <td>
                                                     @if ($network->status == "disable")
-                                                        <i class="fa fa-fw fa-times-circle"></i>
+                                                        <i class="fa fa-fw fa-times-circle"  style="color:red;"></i>
                                                     @else
-                                                        <i class="fa fa-fw fa-check-circle"></i>
+                                                        <i class="fa fa-fw fa-check-circle"style="color:green;"></i>
                                                     @endif
                                                 </td>
                                                 <td>{{ $network->created_at }}</td>

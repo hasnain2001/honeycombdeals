@@ -14,7 +14,7 @@ header("X-Robots-Tag:index, follow");?>
 
 @if(isset($blog) && is_object($blog))
    <!-- Your custom meta tags go here -->
-   <title>{!! $blog->title !!}</title>
+   <title>{!! $blog->meta_title !!}</title>
     <link rel="canonical" href="https://honeycombdeals.com/blog/{{ Str::slug($blog->title) }}">
         <meta name="description" content="{!! $blog->meta_description !!}">
 

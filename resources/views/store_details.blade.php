@@ -130,7 +130,7 @@ header("X-Robots-Tag:index, follow");
                         @if ($store->description)
                             <p class=" store_detail_description ">{!! $store->description !!}</p>
                         @endif
-                        <a href="{{ $store->url }}" target="_blank" class="visit_store_btn mb-3">Visit Store</a>
+                        <a href="{{ $store->url }}" target="_blank" class="btn btn-dark text-white ">Visit Store</a>
                     </div>
                 </div>
             </div>
@@ -207,58 +207,42 @@ header("X-Robots-Tag:index, follow");
 
     </div>
 </div>
-
-
-<div class="container">
-    <h2 class="text-center mb-4">Related Stores</h2>
+  <!-- Totals Section, only visible on desktop -->
+  <div class="container">
+       <h2 class="text-center mb-4">Related Stores</h2>
+      
+  </div>
+            
+    <div class="container bg-light">
    
-</div>
-         
- <div class="container bg-light">
-
-  <div class="carousel-inner bg-light">
-    @foreach ($relatedStores->chunk(20) as $chunk)
-      <div class="carousel-item bg-light {{ $loop->first ? 'active' : '' }}">
-        <div class="d-flex flex-row flex-nowrap overflow-auto">
-          @foreach ($chunk as $relatedStore)
-            <div class="col-md-4 mb-3 flex-shrink-0 bg-light">
-              <div class="card shadow-sm h-100 bg-light">
-                <img class="cardimg card-img-top img-fluid" src="{{ asset('uploads/store/' . $relatedStore->store_image) }}" lt="{{ $relatedStore->name }}"  style="height:200px; width:450px;">
-                <div class="card-body bg-light">
-                  <h5 class="card-title">{{ $relatedStore->name }}</h5>
-<p class="card-text">{{ Str::limit($relatedStore->description, 100) }}</p>                    
-                  <div class="card-footer bg-white border-0 bg-light">
-                    <small class="text-muted">Created at {{ $relatedStore->created_at }}</small>
+     <div class="carousel-inner bg-light">
+       @foreach ($relatedStores->chunk(20000) as $chunk)
+         <div class="carousel-item bg-light {{ $loop->first ? 'active' : '' }}">
+           <div class="d-flex flex-row flex-nowrap overflow-auto">
+  @foreach ($chunk as $relatedStore)
+              <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                  <a href="{{ route('store_details', ['name' => Str::slug($relatedStore->name)]) }}">
+                    <img src="{{ asset('uploads/store/' . $relatedStore->store_image) }}" alt="{{ $relatedStore->name }}" class="card-img-top img-fluid rounded-top">
+                  </a>
+                  <div class="card-body px-3 py-2">
+                    <h5 class="card-title text-dark">{{ $relatedStore->name }}</h5>
+                    <p class="card-text text-muted">{{ Str::limit($relatedStore->description, 70) }}</p>
+                    <a href="{{ route('store_details', ['name' => Str::slug($relatedStore->name)]) }}" class="get stretched-link text-decoration-none">Visit Store</a>
                   </div>
-                  <a href="{{ route('store_details', ['name' => Str::slug($relatedStore->name)]) }}" class="btn btn-dark stretched-link">Read More</a>
                 </div>
               </div>
-            </div>
-          @endforeach
-        </div>
-      </div>
-    @endforeach
-  </div>
-
-</div>
-  
-  <!-- Totals Section, only visible on desktop -->
-            
-    
+            @endforeach
+           </div>
+         </div>
+       @endforeach
+     </div>
+   
+   </div>
     
      <x-alert/>
     
        <script>
-        $(document).ready(function() {
-  $('.your-slider-class').slick({
-    dots: true, // Add navigation dots
-    slidesToShow: 3, // Number of slides visible
-    slidesToScroll: 1, // Number of slides to scroll per swipe
-    autoplay: true, // Enable autoplay (optional)
-    autoplaySpeed: 2000, // Autoplay speed in milliseconds (optional)
-  });
-});
-
         function openCouponInNewTab(url, couponId) {
             window.open(url, '_blank');
             var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));

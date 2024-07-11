@@ -61,6 +61,9 @@
                         <th scope="col">#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Blog Image</th>
+                          <th scope="col">created at</th>
+                        <th scope="col">updated at</th>
+                        
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -79,6 +82,16 @@
                                     <span class="badge badge-secondary">No Image</span>
                                 @endif
                             </td>
+                              <td>
+    <span class="badge bg-info text-dark" data-bs-toggle="tooltip" title="{{ $blog->created_at->setTimezone('Asia/Karachi')->format('l, F j, Y h:i A') }}">
+        {{ $blog->created_at->setTimezone('Asia/Karachi')->format('M d, Y h:i A') }}
+    </span>
+</td>
+<td>
+    <span class="badge bg-warning text-dark" data-bs-toggle="tooltip" title="{{ $blog->updated_at->setTimezone('Asia/Karachi')->format('l, F j, Y h:i A') }}">
+        {{ $blog->updated_at->setTimezone('Asia/Karachi')->format('M d, Y h:i A') }}
+    </span>
+</td>
                             <td>
                                 <a href="{{ route('admin.blog.edit', $blog->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                 <form action="{{ route('admin.blog.delete', $blog->id) }}" method="POST" class="d-inline">
@@ -98,6 +111,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Blog Image</th>
+                              <th scope="col">created at</th>
+                        <th scope="col">updated at</th>
                         <th scope="col">Action</th>
                     </tr>
                 </tfoot>

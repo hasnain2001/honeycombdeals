@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="ending_date">Ending Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="ending_date" id="ending_date" required>
+                                    <input type="date" class="form-control font-weight-bold" name="ending_date" id="ending_date" required>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                     <select name="store" id="store" class="form-control">
                                         <option value="" disabled selected>--Select Store--</option>
                                         @foreach($stores as $store) 
-                                            <option value="{{ $store->name }}">{{ $store->name }}</option>
+                                            <option class="text-dark font-weight-bold" value="{{ $store->name }}">{{ $store->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

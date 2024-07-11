@@ -131,7 +131,7 @@ header("X-Robots-Tag:index, follow");
             <div class="card shadow-sm h-100 overflow-hidden">
               <a href="{{ url('related_category/'. Str::slug($category->title)) }}" >
                 @if ($category->category_image)
-                  <img src="{{ asset('uploads/categories/' . $category->category_image) }}" class="card-img-top" alt="{{ $category->title }} Image">
+                  <img src="{{ asset('uploads/categories/' . $category->category_image) }}" class="card-img-top" alt="{{ $category->title }} Image" loading="lazy">
                 @else
                   <div class="d-flex align-items-center justify-content-center vh-100 bg-light text-muted">
                     <i class="fas fa-image fa-3x"></i>

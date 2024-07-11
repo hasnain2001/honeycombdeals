@@ -129,11 +129,12 @@ header("X-Robots-Tag:index, follow");
             <!-- Blog posts -->
             <div class="row">
                 @foreach ($blogs as $blog)
-                @if ($blog->title)
-                <a href="{{ route('blog-details', ['title' => Str::slug($blog->title)]) }}" class="col-md-12 mb-4">
+                @if ($blog->slug)
+           <a href="{{ route('blog-details', ['slug' => Str::slug($blog->slug)]) }}" class="col-md-12 mb-4">
+
 
                     @else
-                    <a href="javascript:;" class="col-md-12 mb-4 text-decoration-none">
+                    <a href="javascript:;" class="btn btn-darkcol-md-12 mb-4 text-decoration-none">no Slug</a>
                         @endif
                         <div class="blog-post">
                             <img src="{{ asset($blog->category_image) }}" alt="Blog Post Image" style="width: 1000px; height: 400px;">
