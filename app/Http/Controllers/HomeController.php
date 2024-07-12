@@ -12,13 +12,20 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    
-  
+
+
     public function index() {
     $store = Stores::latest()->paginate(24);
     $categories = Categories::latest()->paginate(6);
        $blogs = Blog::all();
-      $topCoupons = Coupons::latest()->paginate(20);
+$topCoupons = Coupons::whereIn('id', function($query) {
+                    $query->select(DB::raw('MAX(id)'))
+                          ->from('coupons')
+                          ->groupBy('store');
+                })
+                ->orderBy('created_at', 'desc') // Order by the latest coupons
+                ->paginate(21);
+
     return view('home', compact('store', 'categories', 'blogs','topCoupons'));
 }
 
@@ -42,16 +49,16 @@ class HomeController extends Controller
     return view('Blog', compact('blogs'));
 }
 
-    
-    
+
+
     public function blog_Details($name) {
-        // Convert the name to slug
+
         $slug = Str::slug($name);
-        
-        // Find the blog post by slug
+
+
         $blog = Blog::where('slug', $slug)->firstOrFail();
-        
-        // Pass the blog data to the view
+
+
         return view('blog_details', compact('blog'));
     }
     public function StoreDetails($name) {
@@ -59,37 +66,37 @@ class HomeController extends Controller
         $title = ucwords(str_replace('-', ' ', $slug));
         $coupons = Coupons::where('store', $title)->orderByRaw('CAST(`order` AS SIGNED) ASC')->get();
         $store = Stores::where('name', $title)->first();
-    
-        // Fetch related stores
+
+
         $relatedStores = Stores::where('category', $store->category)
                                ->where('id', '!=', $store->id)
-                               ->take(5) // Limit the number of related stores
+
                                ->get();
-    
+
         return view('store_details', compact('store', 'coupons', 'relatedStores'));
     }
-    
-  
+
+
       public function categories() {
         $category = Categories::all();
         return view('categories', compact('category'));
     }
-     
+
 
 public function RelatedCategoryStores($title)
 {
     // Convert the meta tag to a slug
     $slug = Str::slug($title);
-    
+
     // Convert the slug back to title case
     $name = ucwords(str_replace('-', ' ', $slug));
-    
+
     // Retrieve stores related to the category
     $stores = Stores::where('category', $name)->get();
-    
+
     // Retrieve all categories
     $category = Categories::all();
-    
+
     // Pass the stores, category name, and categories to the view
     return view('related_category', compact('stores', 'name', 'category'));
 }

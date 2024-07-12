@@ -24,7 +24,7 @@ header("X-Robots-Tag:index, follow");
     <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
 
 
- 
+
     <!-- Bootstrap CSS v5.3.2 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -37,14 +37,63 @@ header("X-Robots-Tag:index, follow");
 
         <link rel="stylesheet" href="{{ asset('front/assets/css/home.css')}}">
 
+        <style>
+            .container1{
+                margin: 2%;
+
+
+            }
+            .name {
+    background-image: url('{{ asset('images/back.jpg') }}');
+
+    color: purple;
+    background-size: cover;
+    background-position: center;
+    padding: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.coupon {
+    position: relative;
+    text-align: center;
+}
+.couponuse {
+    top: 20%;
+    position: relative;
+    text-align: left;
+}
+
+.coupon .getcode {
+    position: absolute;
+    bottom: -15px;
+    left: 0px;
+    z-index: 1; /* Ensure the button is on top */
+    color: #fff;
+    background-color: #681668; /* Purple color */
+    border: 1px solid #800080; /* Purple color */
+    border-radius: 90px  30px; /* Border radius of 5px */
+    padding: 10px 20px; /* Adjust padding to increase width */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+text-align: center;
+}
+.used{
+    top: 0%;
+}
+.codeindex{
+    color: black;
+}
+
+        </style>
+
 </head>
 <body>
-   
+
 <!--<div class="top_header">-->
 <!--    <div class="container-fluid">-->
 <!--        <div class="row align-items-center">-->
 <!--            <div class="col-6 col-lg-4">-->
-             
+
 <!--            </div>-->
 <!--            <div class="col-6 col-lg-8">-->
 <!--                <div class="row align-items-center">-->
@@ -119,102 +168,128 @@ header("X-Robots-Tag:index, follow");
     </nav>
 </header>
 <main>
-<div class="container">
+    @if(session('success'))
+    <div class="alert alert-light alert-dismissable">
+
+
+        <b>{{ session('success') }}</b>
+    </div>
+@endif
+    @if ($store)
+    <div class="container1 py-5 name">
+        <div class="content-wrapper">
+            <h1 class="text-center">{{ $store->name }}</h1>
+        </div>
+    </div>
+
+
+<div class="container1">
     <div class="row mt-5">
-        @if ($store)
-            <h1>{{ $store->name }}</h1>
+
             <div class="col-12 col-lg-3 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <img src="{{ asset('uploads/store/' . $store->store_image) }}" width="100%" alt="{{ $store->name }}">
                         @if ($store->description)
-                            <p class=" store_detail_description ">{!! $store->description !!}</p>
+                        <p class="store_detail_description">
+                            <span class="short-description">{!! \Illuminate\Support\Str::words(strip_tags($store->description), 20, '...') !!}</span>
+                            <span class="full-description" style="display: none;">{!! $store->description !!}</span>
+                            @if (strlen(strip_tags($store->description)) > 200)
+                                <a href="#" class=" text-danger toggle-description">Show More</a>
+                            @endif
+                        </p>
                         @endif
                         <a href="{{ $store->url }}" target="_blank" class="btn btn-dark text-white ">Visit Store</a>
                     </div>
                 </div>
             </div>
         @endif
-  <div class="col-12 col-lg-9">
-    <div class="row mb-3">
-         @php
+        <div class="col-12 col-lg-9">
+            <div class="row mb-3">
+                @php
                     $codeCount = 0;
                     $dealCount = 0;
                 @endphp
-        @foreach ($coupons as $coupon)
-     <div class="col-12 col-lg-4 col-sm-12 mb-3">
-    <div class="card h-100">
-        <div class="card-body">
-            <h5 class="card-title">{{ $coupon->name }}</h5>
-            @if ($coupon->description)
-                <p class="card-text">{!! $coupon->description !!}</p>
-            @endif
-            @if ($coupon->code)
-             @php $codeCount++; @endphp
-                <a href="#" class="get" id="getCode{{ $coupon->id }}" onclick="openCouponInNewTab('{{ $coupon->destination_url }}', '{{ $coupon->id }}')">Code & Activate</a>
-            @else
-                                                        @php $dealCount++; @endphp
-                <a href="{{ $coupon->destination_url }}" class="get" target="_blank">Get Deal</a>
-            @endif
-        </div>
-    </div>
-    
-</div>
+                @foreach ($coupons as $coupon)
+                <div class="col-12 col-lg-4 col-sm-12 mb-3">
+                    <div class="card" style="height: 400px; max-height:400px;">
+                        <div class="card-body d-flex flex-column">
+                            <br>
+                            <h5>{{ $coupon->name }}</h5>
+                            <br>
+                            @if ($coupon->description)
+                                <p class="card-text font-italic">{!! $coupon->description !!}</p>
+                            @endif
+                            <div> <!-- This div pushes the button to the bottom -->
+                                @if ($coupon->code)
+                                @php $codeCount++; @endphp
+                                <div class="d-grid gap-2">
+                                    <div class="coupon">
+                                        <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Coupon Code</a>
+                                        <br>
+                                        <br>
+                                        <div class="card">
+                                            <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
+                                            <button class="btn btn-primary copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
+                                            <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
+                                        </div>
+                                    </div>
+                                    <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
+                                        @csrf
+                                        <input type="hidden" name="coupon_id" id="coupon_id">
 
-
-            <div class="modal fade" id="codeModal{{ $coupon->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $coupon->id }}" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title" id="exampleModalLabel{{ $coupon->id }}">{{ $coupon->name }}</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h3>{{ $coupon->code ? $coupon->code : "Code not found" }}</h3>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <div class="couponuse">
+                                        <p class="used" id="output_{{ $coupon->id }}"> Used By:{{ $coupon->clicks }} </p>
+                                    </div>
+                                </div>
+                                @else
+                                @php $dealCount++; @endphp
+                                <div class="d-grid gap-2">
+                                    <a href="{{ $coupon->destination_url }}" class="get" target="_blank" onclick="countClicks('{{ $coupon->id }}')">Get Deal</a>
+                                    <p class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</p>
+                                </div>
+                            </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
-        @endforeach
-    </div>
+        </div>
+
+
 <div class="totals mt-3 d-none d-lg-block">
     <div class="p-3 border rounded" style="background-color: #f8f9fa;">
         <h4 class="mb-3" style="font-weight: bold;">Summary</h4>
         <p style="font-size: 1.2em; margin: 0;">
-            <i class="fas fa-tag me-2"></i>Total Codes: 
+            <i class="fas fa-tag me-2"></i>Total Codes:
             <span class="badge bg-primary">{{ $codeCount }}</span>
         </p>
         <p style="font-size: 1.2em; margin: 0;">
-            <i class="fas fa-shopping-cart me-2"></i>Total Deals: 
+            <i class="fas fa-shopping-cart me-2"></i>Total Deals:
             <span class="badge bg-success">{{ $dealCount }}</span>
         </p>
         @php
             $totalCount = $codeCount + $dealCount;
         @endphp
         <p style="font-size: 1.2em; margin: 0;">
-          Total: 
+          Total:
             <span class="badge bg-info">{{ $totalCount }}</span>
         </p>
     </div>
 </div>
-
-
-</div>
-
 
     </div>
 </div>
   <!-- Totals Section, only visible on desktop -->
   <div class="container">
        <h2 class="text-center mb-4">Related Stores</h2>
-      
+
   </div>
-            
+
     <div class="container bg-light">
-   
+
      <div class="carousel-inner bg-light">
        @foreach ($relatedStores->chunk(20000) as $chunk)
          <div class="carousel-item bg-light {{ $loop->first ? 'active' : '' }}">
@@ -237,19 +312,67 @@ header("X-Robots-Tag:index, follow");
          </div>
        @endforeach
      </div>
-   
+
    </div>
-    
+</div>
+
      <x-alert/>
-    
+
        <script>
-        function openCouponInNewTab(url, couponId) {
-            window.open(url, '_blank');
-            var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));
-            modal.show();
+document.addEventListener("DOMContentLoaded", function() {
+    // Check local storage and show coupon codes if already clicked
+    @foreach ($coupons as $coupon)
+        var couponId = '{{ $coupon->id }}';
+        if (localStorage.getItem('couponClicked_' + couponId)) {
+            var couponLink = $('#getCode' + couponId);
+            var couponCode = $('#codeIndex' + couponId);
+            var copyBtn = $('#copyBtn' + couponId);
+
+            couponLink.hide();
+            couponCode.show();
+            copyBtn.show();
         }
-    </script>
-    <script>
+    @endforeach
+});
+
+function countClicks(couponId) {
+    document.getElementById('coupon_id').value = couponId;
+    document.getElementById('clickForm').submit();
+}
+
+function countAndHandleClicks(couponId) {
+    // Count the click
+    document.getElementById('coupon_id').value = couponId;
+    document.getElementById('clickForm').submit();
+
+    // Handle coupon click to show coupon code
+    var couponLink = $('#getCode' + couponId);
+    var couponCode = $('#codeIndex' + couponId);
+    var copyBtn = $('#copyBtn' + couponId);
+
+    // Toggle visibility of link and coupon code span
+    couponLink.hide();
+    couponCode.show();
+    copyBtn.show();
+
+    // Store the clicked state in local storage
+    localStorage.setItem('couponClicked_' + couponId, true);
+}
+
+function copyToClipboard(couponId) {
+    var couponCode = $('#codeIndex' + couponId).text().trim();
+    var tempInput = $('<input>');
+    $('body').append(tempInput);
+    tempInput.val(couponCode).select();
+    document.execCommand('copy');
+    tempInput.remove();
+
+    // Show copy confirmation message
+    var copyConfirmation = $('#copyConfirmation' + couponId);
+    copyConfirmation.fadeIn().delay(1000).fadeOut();
+}
+
+
 $(document).ready(function() {
     $('#searchInput').autocomplete({
         source: function(request, response) {
@@ -267,6 +390,27 @@ $(document).ready(function() {
         minLength:1 // Minimum characters before autocomplete starts
     });
 });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.toggle-description').forEach(function (toggle) {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var shortDescription = toggle.parentNode.querySelector('.short-description');
+                    var fullDescription = toggle.parentNode.querySelector('.full-description');
+
+                    if (shortDescription.style.display === 'none') {
+                        shortDescription.style.display = 'inline';
+                        fullDescription.style.display = 'none';
+                        toggle.textContent = 'Show More';
+                    } else {
+                        shortDescription.style.display = 'none';
+                        fullDescription.style.display = 'inline';
+                        toggle.textContent = 'Show Less';
+                    }
+                });
+            });
+        });
+
 </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
@@ -274,6 +418,7 @@ $(document).ready(function() {
 
  <!-- Include Owl Carousel CSS -->
  <!-- Include jQuery library -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

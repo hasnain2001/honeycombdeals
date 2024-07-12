@@ -18,7 +18,7 @@ class Coupons extends Model
         'status',
         'authentication',
         'store',
-        
+        'clicks',
         'order',
     ];
 

@@ -29,12 +29,12 @@ class DemoController extends Controller
     }
     
     
-public function blog_show($title) {
+public function blog_show($slug) {
     // Decode the URL-encoded title
-    $decodedTitle = str_replace('-', ' ', $title);
+    $decodedTitle = str_replace('-', ' ', $slug);
 
     // Retrieve the blog post from the database based on the decoded title
-    $blog = Blog::where('title', $decodedTitle)->firstOrFail();
+    $blog = Blog::where('slug', $decodedTitle)->firstOrFail();
      $chunks = Stores::latest()->limit(25)->get();
 
     
@@ -52,93 +52,73 @@ public function blog_show($title) {
     public function create() {
         return view('admin.Blog.create');
     }
-
-    public function store(Request $request)
-    {
-        // Validate the incoming request data
-      $validatedData = $request->validate([
-        'title' => 'required|string|max:255', // Adjust max length as needed
+  public function store(Request $request)
+{
+    // Validate request data
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255', 
+         'slug' => 'required|string|max:255', 
         'content' => 'required|string',
         'category_image' => 'required|image|mimes:jpeg,png,jpg,gif',
-        'meta_title' => 'nullable|string|max:65', // Meta title validation
-        'meta_description' => 'nullable|string|max:155', // Meta description validation
-        'meta_keyword' => 'nullable|string|max:255', // Meta keyword validation
-        ]);
-    
-        // Handle file upload
-        if ($request->hasFile('category_image')) {
-            $image = $request->file('category_image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('uploads'), $imageName);
-            $imagePath = 'uploads/'.$imageName;
-        } else {
-            $imagePath = null;
-        }
-    
-        // Create a new instance of the Blog model and assign values from the request
-        $blog = new Blog();
-        $blog->title = $request->input('title');
-       
-        $blog->category_image = $imagePath;
-           $blog->meta_title = $request->input('meta_title');
+        'meta_title' => 'nullable|string|max:65', 
+        'meta_description' => 'nullable|string|max:155', 
+        'meta_keyword' => 'nullable|string|max:255', 
+    ]);
+
+    // Handle file upload for category_image
+    if ($request->hasFile('category_image')) {
+        $image = $request->file('category_image');
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('uploads'), $imageName);
+        $imagePath = 'uploads/'.$imageName;
+    } else {
+        $imagePath = null;
+    }
+
+    // Create new Blog instance
+    $blog = new Blog();
+    $blog->title = $request->input('title');
+     $blog->slug = $request->input('slug');
+    $blog->category_image = $imagePath;
+    $blog->meta_title = $request->input('meta_title');
     $blog->meta_description = $request->input('meta_description');
     $blog->meta_keyword = $request->input('meta_keyword');
-        // Assign file path to category_image
-    
-      // Process and manipulate HTML content
-// Process and manipulate HTML content
-$content = $request->input('content');
 
-// Remove invalid HTML tags (e.g., <o:p>)
-$content = preg_replace('/<o:p[^>]*>(.*?)<\/o:p>/', '', $content);
+    // Process content from CKEditor
+    $content = $request->input('content');
 
-$dom = new \DomDocument();
-$dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    // Load HTML content into DOMDocument
+    $dom = new \DOMDocument();
+    libxml_use_internal_errors(true);
+    $dom->loadHTML('<?xml encoding="UTF-8">' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
 
-// Continue with the rest of your code for image processing and saving
+    // Process images in the content
+    $images = $dom->getElementsByTagName('img');
+    foreach ($images as $img) {
+        $image_64 = $img->getAttribute('src');
+        if (strpos($image_64, 'data:image/') === 0) {
+            $image_parts = explode(';', $image_64);
+            $image_type_aux = explode('/', $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode(explode(',', $image_parts[1])[1]);
+            $imageName = Str::random(10) . '.' . $image_type;
+            $path = public_path('uploads/') . $imageName;
+            file_put_contents($path, $image_base64);
 
-
-$images = $dom->getElementsByTagName("img");
-foreach ($images as $img) {
-    $image_64 = $img->getAttribute('src');
-    $image_parts = explode(';', $image_64);
-
-    if (count($image_parts) > 0) {
-        $image_data = explode(',', $image_parts[1]);
-
-        if (count($image_data) > 1) {
-            $extension_parts = explode('.', $image_data[0]);
-            if (isset($extension_parts[1])) {
-                $extension = explode('/', $extension_parts[1])[1];
-                $replace = $image_data[0] . ';';
-                $image = str_replace($replace, '', $image_data[1]);
-                $image = str_replace(' ', '+', $image);
-                $imageName = Str::random(10) . '.' . $extension;
-
-                $image_name = "/upload/" . $imageName;
-                $path = public_path() . $imageName;
-
-                file_put_contents($path, base64_decode($image));
-
-                $img->removeAttribute('src');
-                $img->setAttribute('src', $image_name);
-            }
+            // Update the src attribute in the image tag
+            $img->setAttribute('src', asset('uploads/' . $imageName));
         }
     }
+
+    // Save the updated content back to the blog
+    $blog->content = $dom->saveHTML();
+    $blog->save();
+
+    // Flash success message and redirect back
+    session()->flash('success', 'Blog created successfully.');
+    return redirect()->back()->with('success', 'Blog created successfully.');
 }
-
-
-// Save the manipulated HTML content to the database
-$blog->content = $dom->saveHTML();
-$blog->save();
-
-        session()->flash('<div class="alert alert-info" role="alert">
-        blog created succesfully
-        </div>');
-    
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Blog created successfully.');
-    }
 
 
     public function edit($id)
@@ -149,66 +129,68 @@ $blog->save();
 
 public function update(Request $request, $id)
 {
-    // Validate the incoming request data
-    $validatedData = $request->validate([
-        'title' => 'required',
-        'content' => 'required|string',
-        'category_image' => 'image|mimes:jpeg,png,jpg,gif',
-        'meta_title' => 'nullable|string|max:65', // Meta title validation
-        'meta_description' => 'nullable|string|max:155', // Meta description validation
-        'meta_keyword' => 'nullable|string|max:255', // Meta keyword validation
-    ]);
-
-    // Find the blog post by ID
+    // Find the blog to update
     $blog = Blog::findOrFail($id);
 
-    // Handle file upload if a new image is provided
+    // Validate request data
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255', 
+        'slug' => 'required|string|max:255', 
+        'content' => 'required|string',
+        'category_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'meta_title' => 'nullable|string|max:65', 
+        'meta_description' => 'nullable|string|max:155', 
+        'meta_keyword' => 'nullable|string|max:255', 
+    ]);
+
+    // Handle file upload for category_image if provided
     if ($request->hasFile('category_image')) {
         $image = $request->file('category_image');
         $imageName = time().'.'.$image->getClientOriginalExtension();
         $image->move(public_path('uploads'), $imageName);
-        $imagePath = 'uploads/'.$imageName;
-        $blog->category_image = $imagePath;
+        $blog->category_image = 'uploads/'.$imageName;
     }
 
-    // Process and manipulate HTML content
+    // Process content from CKEditor
     $content = $request->input('content');
 
-    // Preprocess HTML content if necessary
-    // For example, you can remove unwanted tags or encode special characters here
-
-    $dom = new \DomDocument();
-
-    // Suppress errors during HTML loading
+    // Load HTML content into DOMDocument
+    $dom = new \DOMDocument();
     libxml_use_internal_errors(true);
-
-    // Load HTML content into the DOMDocument
-    $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-
-    // Check for any errors during HTML loading
-    $errors = libxml_get_errors();
-    if (!empty($errors)) {
-        // Handle errors (e.g., log them, return an error response)
-        // You can also process the HTML content differently based on the errors
-    }
-
+    $dom->loadHTML('<?xml encoding="UTF-8">' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     libxml_clear_errors();
 
-    // Save the manipulated HTML content to the database
-    $blog->content = $dom->saveHTML();
+    // Process images in the content
+    $images = $dom->getElementsByTagName('img');
+    foreach ($images as $img) {
+        $imageSrc = $img->getAttribute('src');
+        if (strpos($imageSrc, 'data:image/') === 0) {
+            $imageParts = explode(';', $imageSrc);
+            $imageTypeAux = explode('/', $imageParts[0]);
+            $imageType = $imageTypeAux[1];
+            $imageBase64 = base64_decode(explode(',', $imageParts[1])[1]);
+            $imageName = Str::random(10) . '.' . $imageType;
+            $path = public_path('uploads/') . $imageName;
+            file_put_contents($path, $imageBase64);
 
-    // Update meta fields
+            // Update the src attribute in the image tag
+            $img->setAttribute('src', asset('uploads/' . $imageName));
+        }
+    }
+
+    // Save the updated content back to the blog
+    $blog->title = $request->input('title');
+    $blog->slug = $request->input('slug');
     $blog->meta_title = $request->input('meta_title');
     $blog->meta_description = $request->input('meta_description');
     $blog->meta_keyword = $request->input('meta_keyword');
-
-    // Save the updated blog instance to the database
+    $blog->content = $dom->saveHTML();
     $blog->save();
 
-    // Redirect back with a success message
+    // Flash success message and redirect back
+    session()->flash('success', 'Blog updated successfully.');
     return redirect()->back()->with('success', 'Blog updated successfully.');
 }
-
 public function destroy($id)
 {
     // Find the blog post by ID

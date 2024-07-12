@@ -89,7 +89,7 @@ Route::get('/related_category/{title}', [HomeController::class, 'RelatedCategory
 
 
 Route::get('/blog', [DemoController::class, 'blog_home'])->name('blog');
-Route::get('/blog/{title}', [DemoController::class, 'blog_show'])->name('blog-details');
+Route::get('/blog/{slug}', [DemoController::class, 'blog_show'])->name('blog-details');
 Route::prefix('admin')->group(function () {
     Route::get('/Blog', [DemoController::class, 'blog'])->name('admin.blog');
     Route::get('/Blog/create', [DemoController::class, 'create'])->name('admin.blog.create');
@@ -116,8 +116,9 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/stores', 'stores')->name('stores');
     Route::get('/store/{name}', 'StoreDetails')->name('store_details');
+
     Route::get('/related-category/{title}', 'relatedcategories')->name('related_category');
-  
+
 });
 
 Route::get('/dashboard', function () {
@@ -164,7 +165,12 @@ Route::controller(NetworksController::class)->prefix('admin')->group(function ()
 });
 
 // Coupons Routes Begin
-Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
+Route::get('coupons', [CouponsController::class, 'index'])->name('coupons.index');
+Route::post('/update-clicks', [CouponsController::class, 'updateClicks'])->name('update.clicks');
+Route::get('/clicks/{couponId}', [CouponsController::class, 'openCoupon'])->name('open.coupon');
+
+
+
 
 
 Route::controller(CouponsController::class)->prefix('admin')->group(function () {
@@ -176,6 +182,8 @@ Route::controller(CouponsController::class)->prefix('admin')->group(function () 
     Route::get('/coupon/delete/{id}', 'delete_coupon')->name('admin.coupon.delete');
     Route::post('/custom-sortable', 'update')->name('custom-sortable');
     Route::post('/coupon/deleteSelected', 'deleteSelected')->name('admin.coupon.deleteSelected');
+
+
 });
 
 require __DIR__.'/auth.php';

@@ -9,7 +9,7 @@
 
 
 <br>
- 
+
 <div class="container"><h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1></div>
 
 <div class="container">
@@ -34,7 +34,7 @@
           <span class="store-prev-icon" aria-hidden="true"><i class="fa-solid fa-circle-left"></i></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        
+
         <button class="store-next" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
           <span class="store-next-icon" aria-hidden="true"><i class="fa-solid fa-circle-right"></i></</span>
           <span class="visually-hidden">Next</span>
@@ -52,11 +52,11 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
     @forelse ($topCoupons as $coupon)
       <div class="col">
-        <div class="coupon-card card shadow-sm border-0 rounded overflow-hidden" style="width: 380px; height:300px; ">  
-          <div class="card-body d-flex flex-column justify-content-between h-100 bg-gradient-light">  
+        <div class="coupon-card card shadow-sm border-0 rounded overflow-hidden" style="width: 380px; height:300px; ">
+          <div class="card-body d-flex flex-column justify-content-between h-100 bg-gradient-light">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h5 class="card-title text-dark mb-0">{{ $coupon->store }}</h5>
-            
+
             </div>
             <h3 class="card-text text-dark  mb-2">{{ $coupon->name}}</h3>
           <p class="card-text text-dark" style="font-style: italic;">{{ Str::limit($coupon->description, 70) }}</p>
@@ -68,6 +68,7 @@
                                     </button>
                                     @else
                                     <a href="{{ $coupon->destination_url }}" class="get" target="_blank">Get Deal</a>
+                                    <p id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }} Person</p>
                                     @endif
           </div>
         </div>
@@ -90,7 +91,7 @@
                     </div>
                 </div>
     @empty
-    
+
       <!-- Handle case where there are no coupons -->
     @endforelse
   </div>
@@ -126,7 +127,7 @@
   <h2 class="fw-bold home_ts_h2 text-center">Shopping Hacks & Savings Tips & Tricks</h2>
 </div>
 <div class="container bg-light">
- 
+
     <div class="carousel-inner bg-light">
       @foreach ($blogs->chunk(2000) as $chunk)
         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
@@ -151,9 +152,9 @@
         </div>
       @endforeach
     </div>
-  
+
   </div>
 </div>
-  
+
 
 @endsection
