@@ -1,0 +1,93 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.container1 {
+    margin: 2%;
+}
+.name {
+    color: purple;
+    background-size: cover;
+    background-position: center;
+    padding: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-image: url("{{ asset('images/back.jpg') }}");
+}
+
+
+.coupon {
+    position: relative;
+    text-align: center;
+}
+
+.coupon .getcode {
+    position: relative;
+    bottom: 0px;
+    left: 0;
+    z-index: 1; /* Ensure the button is on top */
+    color: #fff;
+    background-color: #681668; /* Purple color */
+    border: 1px solid #800080; /* Purple color */
+    border-radius: 90px 30px; /* Border radius */
+    padding: 10px 20px; /* Adjust padding to increase width */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+}
+
+.card {
+    height: 640px;
+    max-height: 750px;
+    border-radius: 2px;
+    border: 1px solid black;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+    .card {
+        height: auto;
+        max-height: none;
+    }
+
+    .coupon .getcode {
+        padding: 8px 16px;
+        border-radius: 45px 15px;
+    }
+}
+
+.text-name {
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 8px;
+    color: #232d27;
+}
+
+.name-section, .description-section, .coupon-section {
+    margin: 5px;
+}
+
+.ending-date-used-section span {
+    margin: 0; /* Remove margin between Ending Date and Used By */
+}
+
+.ending-date {
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 16px;
+    color: #2a2c75;
+    font-weight: 600;
+}
+
+.text-description {
+    font-family: 'Poppins', sans-serif;
+    margin: 0 0 16px;
+    color: #51545f;
+    font-weight: 600;
+}
+
+.used {
+    font-family: 'Poppins', sans-serif;
+    margin: 10px 0 16px;
+    color: #212529;
+    font-weight: 600;
+}
+.store-image{
+    
+}
