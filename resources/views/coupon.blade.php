@@ -27,7 +27,7 @@
 </style>
 </head>
 <body>
-<x-component-name/>
+<x-navbar/>
 <br>
 <div class="container bg-light">
     <div class="row mt-3 justify-content-center"> <!-- Center the pagination links -->
@@ -90,6 +90,6 @@
 
 
 
-<x-footer/>
+<x-alert/>
 </body>
 </html>

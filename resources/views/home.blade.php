@@ -6,11 +6,29 @@
 
 
 <style>
-    @media (max-width: 576px) {
-        .coupon-card {
-            width: 100%; /* Make the coupon cards full width on mobile */
-        }
+
+.heading-1 {
+    font-size: 25px; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; 
+    line-height: 1.4;
+}
+
+
+
+@media screen and (max-width: 786px) {
+    .coupon-card {
+        width: 100%; 
+        margin-bottom: 20px;
     }
+    .heading-1 {
+        font-size: 18px; 
+    }
+}
+
+  
 </style>
 
 
@@ -18,9 +36,23 @@
 
 <div class="container">
     <div class="container">
-        <h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1>
+        <h1 class="heading-1">Latest Discount Codes & Promo Codes From Popular Stores</h1>
     </div>
     <div id="storeCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            @foreach ($store->chunk(6) as $key => $chunk)
+                <button
+                    type="button"
+                    data-bs-target="#storeCarousel"
+                    data-bs-slide-to="{{ $key }}"
+                    class=" bg-dark {{ $key === 0 ? 'active' : '' }}"
+                    aria-current="{{ $key === 0 ? 'true' : '' }}"
+                    aria-label="Slide {{ $key + 1 }}"
+                ></button>
+            @endforeach
+        </div>
+        <!-- Slides -->
         <div class="carousel-inner">
             @foreach ($store->chunk(6) as $key => $chunk)
                 <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
@@ -28,14 +60,12 @@
                         @foreach ($chunk as $storeItem)
                             <div class="col-6 col-sm-4 col-md-2">
                                 @php
-                                $storeurl = $storeItem->name
-                                ?  route('store_details', ['name' => Str::slug($storeItem->name)])
+                                $storeurl = $storeItem->slug
+                                ?  route('store_details', ['slug' => Str::slug($storeItem->slug)])
                                 : '#';
                                 @endphp
-                       
-                                <a href="{{$storeurl }}" class="text-dark text-decoration-none">
-                             
-
+    
+                                <a href="{{ $storeurl }}" class="text-dark text-decoration-none">
                                     <img
                                         class="img-fluid mb-2"
                                         src="{{ asset('uploads/store/' . $storeItem->store_image) }}"
@@ -52,18 +82,18 @@
                 </div>
             @endforeach
         </div>
+        <!-- Navigation Buttons -->
         <button class="store-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
             <span class="store-prev-icon" aria-hidden="true"><i class="fa-solid fa-circle-left"></i></span>
             <span class="visually-hidden">Previous</span>
         </button>
-
+    
         <button class="store-next" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
             <span class="store-next-icon" aria-hidden="true"><i class="fa-solid fa-circle-right"></i></span>
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-
-
+    
 
 
 <br><br>

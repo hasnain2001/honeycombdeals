@@ -27,19 +27,23 @@ public function notfound(){
 
 }
     public function index() {
-    $store = Stores::latest()->paginate(24);
-    $categories = Categories::latest()->paginate(6);
-       $blogs = Blog::latest()->paginate(14);
-$topCoupons = Coupons::whereIn('id', function($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                          ->from('coupons')
-                          ->groupBy('store');
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate(22);
-
+    $categories = Categories::select('title','category_image')
+    ->where('authentication', 'top_stores')
+    ->orderby('created_at','asc')
+    ->limit(6)
+    ->get();
+    $blogs = Blog::select('id','category_image','title','slug')->orderBy('created_at','desc')->limit(10)->get();
+    $store = Stores::select('id','store_image','name','slug',)->orderBy('created_at', 'desc')->limit(24)->get();
+    $topCoupons = Coupons::whereIn('id', function($query) {
+    $query->selectRaw('MAX(id) as id')
+    ->from('coupons')
+    ->groupBy('store');
+    })
+    ->orderBy('created_at', 'desc')
+    ->limit(24)
+    ->get();
     return view('home', compact('store', 'categories', 'blogs','topCoupons'));
-}
+    }
 
 
 

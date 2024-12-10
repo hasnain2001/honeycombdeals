@@ -23,10 +23,15 @@ public function search(Request $request) {
 
     if ($store) {
         // If a single store is found, redirect to its details page
-        return redirect()->route('store_details', ['name' => Str::slug($store->name)]);
+        return redirect()->route('store_details', ['slug' => Str::slug($store->name)]);
     }
 
-    return response()->json(['stores' => $stores]);
+    if (request()->wantsJson()) {
+        return response()->json(['stores' => $stores]);
+    }
+    
+    return redirect()->route('search_results');
+    
 }
 
 public function searchResults(Request $request) {

@@ -195,7 +195,7 @@ class StoresController extends Controller
         ]);
 
         // Redirect back with a success message
-        return redirect()->back()->with('success', 'Store Updated Successfully');
+        return redirect()->route('admin.store')->with('success', 'Store Updated Successfully');
     }
     public function delete_store($id) {
         Stores::find($id)->delete();

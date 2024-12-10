@@ -62,6 +62,26 @@
     </div>
   </div>
 </footer>
-
+<script>
+  $(document).ready(function() {
+    $('#searchInput').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '{{ route("search") }}',
+                dataType: 'json',
+                data: {
+                    query: request.term
+                },
+                success: function(data) {
+                    response(data.stores);
+                }
+            });
+        },
+        minLength:1 // Minimum characters before autocomplete starts
+    });
+});
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>
 </html>

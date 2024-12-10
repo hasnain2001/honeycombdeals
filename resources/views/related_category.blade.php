@@ -63,58 +63,7 @@ header("X-Robots-Tag:index, follow");
 </head>
 <body>
 
-
-<header>
-
-    <!-- Main Navbar Section -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-$purple" style="max-width: 100%; margin: auto;">
-        <div class="container-fluid">
-
-            <!-- Navbar Brand (Logo) -->
-            <a class="navbar-brand" href="/">
-                <img src="{{ asset('front/assets/images/logo-01.png') }}" width="200px" alt="Honeycombdeals Logo">
-            </a>
-
-            <!-- Navbar Toggler (for small screens) -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navbar Links -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="btn btn-$purple text-white" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-$purple text-white" aria-current="page" href="{{ route('stores') }}">Stores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-$purple text-white" aria-current="page" href="{{ route('categories') }}">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-$purple text-white" aria-current="page" href="{{ route('blog') }}">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-$purple text-white" aria-current="page" href="{{ route('contact') }}">Contact Us</a>
-                    </li>
-                </ul>
-                   <form id="searchForm" action="{{ route('search') }}" method="GET" class="d-flex align-items-center col-10 mx-auto" style="max-width: 600px;">
-                <input type="text" id="searchInput" name="query" class="form-control me-2" placeholder="Search...">
-                <button class="btn btn-outline-primary text-white" type="submit">Search</button>
-            </form>
-
-            <!-- Social Icons -->
-            <div class="social-icons">
-                <a href="https://www.facebook.com/honeycombdeal/" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/honeycombdeals_official/" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://twitter.com/honeycombdeals/" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.pinterest.com/honeycombdeals_official/" target="_blank"><i class="fab fa-pinterest"></i></a>
-            </div>
-            </div>
-        </div>
-    </nav>
-</header>
+<x-navbar/>
 <br>
 
 <div class="container">
@@ -133,7 +82,13 @@ header("X-Robots-Tag:index, follow");
             @foreach ($stores as $store)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-decoration-none">
+                        @php
+
+                        $storeurl = $store->slug
+                        ? route('store_details', ['slug' => Str::slug($store->slug)])
+                        : '#';
+                        @endphp
+                        <a href="{{$storeurl }}" class="text-decoration-none">
                             <img class="card-img-top" src="{{ $store->store_image ? asset('uploads/store/' . $store->store_image) : asset('front/assets/images/no-image-found.jpg') }}" alt="{{ $store->name }}" style="width:100%; height:200px; object-fit: cover;">
                             <div class="card-body text-center">
                                 <h5 class="card-title text-dark">{{ $store->name ?: "Title not found" }}</h5>

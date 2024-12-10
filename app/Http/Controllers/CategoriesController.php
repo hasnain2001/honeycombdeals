@@ -45,14 +45,14 @@ class CategoriesController extends Controller
 
     public function update_category(Request $request, $id) {
         $categories = Categories::find($id);
-
+        $CategoryImage = $categories->category_image;
         if (request()->File('category_image'))
         {
             $file = request()->File('category_image');
             $CategoryImage = md5($file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
             $file->move('./uploads/categories', $CategoryImage);
         }
-
+ 
         $categories->update([
             'title' => $request->title,
             'meta_tag' => $request->meta_tag,
@@ -63,7 +63,7 @@ class CategoriesController extends Controller
             'category_image' => isset($CategoryImage) ? $CategoryImage : "No Category Image",
         ]);
 
-        return redirect()->back()->with('success', 'Category Updated Successfully');
+        return redirect()->route('admin.category')->with('success', 'Category Updated Successfully');
     }
 
     public function delete_category($id) {
