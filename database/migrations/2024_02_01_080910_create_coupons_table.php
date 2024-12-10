@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('ending_date');
             $table->string('status');
             $table->string('authentication');
+            $table->integer('order')->default(0);
             $table->integer('clicks')->default(0);
             $table->string('store');
             $table->timestamps();

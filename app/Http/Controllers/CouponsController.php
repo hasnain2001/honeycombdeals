@@ -11,7 +11,7 @@ class CouponsController extends Controller
 
     public function search()
 {
-    $stores = Store::all();
+    $stores = Stores::all();
     return view('search', compact('stores'));
 }
 public function coupon(Request $request) {

@@ -12,6 +12,7 @@ class Stores extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'url',
         'destination_url',
@@ -24,6 +25,7 @@ class Stores extends Model
         'authentication',
         'network',
         'store_image',
+        'content',
     ];
 
     

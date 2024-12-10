@@ -129,7 +129,13 @@ header("X-Robots-Tag:index, follow");
           @foreach ($stores as $store)
             <div class="col">
               <div class="card shadow-sm h-100 overflow-hidden">
-                <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}">
+                @php
+
+                $storeurl = $store->slug
+                ? route('store_details', ['slug' => Str::slug($store->slug)])
+                : '#';
+                @endphp
+                <a href="{{$storeurl }}">
               @if ($store->store_image)
     <img src="{{ asset('uploads/store/' . $store->store_image) }}" class="card-img-top" alt="{{ $store->name }} Image">
 @else
@@ -144,7 +150,7 @@ header("X-Robots-Tag:index, follow");
 
                 </a>
                 <div class="card-body d-flex flex-column justify-content-between">
-                  <a href="{{ route('store_details', ['name' => Str::slug($store->name)]) }}" class="text-dark text-decoration-none stretched-link">
+                  <a href="{{$storeurl }}" class="text-dark text-decoration-none stretched-link">
                     <h5 class="card-title">{{ $store->name ?: "Title not found" }}</h5>
                   </a>
                 </div>

@@ -22,6 +22,16 @@
                     <b>{{ session('success') }}</b>
                 </div>
             @endif
+            @if ($errors->any())
+            <div  class="alert alert-danger" >
+                <strong>Validation error(s):</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form name="UpdateStore" id="UpdateStore" method="POST" enctype="multipart/form-data" action="{{ route('admin.store.update', $stores->id) }}">
                 @csrf
                 <div class="row">
@@ -31,6 +41,10 @@
                                 <div class="form-group">
                                     <label for="name">Store Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name" id="name" value="{{ $stores->name }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Url/Slug <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="slug" id="name" value="{{ $stores->slug }}" placeholder="define your url here " required>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
@@ -48,7 +62,7 @@
                                     <label for="category">Category <span class="text-danger">*</span></label>
                                     <select name="category" id="category" class="form-control">
                                         <option value="" disabled selected>{{ $stores->category }}</option>
-                                        @foreach($categories as $category) 
+                                        @foreach($categories as $category)
                                             <option value="{{ $category->title }}">{{ $category->title }}</option>
                                         @endforeach
                                     </select>
@@ -59,7 +73,7 @@
         <span class="text-danger">{{ $message }}</span>
     @enderror
     <input type="text" class="form-control" name="title" id="name" value="{{ $stores->title }} ">
- 
+
 </div>
 
                                 <div class="form-group">
@@ -76,7 +90,7 @@
         <span class="text-danger">{{ $message }}</span>
     @enderror
     <textarea name="meta_description" id="meta_description" class="form-control" cols="30" rows="5" style="resize: none;">{{ old('meta_description', $stores->meta_description) }}</textarea>
-  
+
 </div>
 
                             </div>
@@ -98,7 +112,7 @@
                                     <label for="network">Network <span class="text-danger">*</span></label>
                                     <select name="network" id="network" class="form-control">
                                         <option value="" disabled selected>{{ $stores->network }}</option>
-                                        @foreach($networks as $network) 
+                                        @foreach($networks as $network)
                                             <option value="{{ $network->title }}">{{ $network->title }}</option>
                                         @endforeach
                                     </select>
@@ -115,7 +129,25 @@
 </div>
 
 <div id="imagePreview"></div>
+<div class="form-group">
+    <label for="content">Main content <span class="text-danger">*</span></label>
+    <textarea id="editor" name="content" >{!! $stores->content !!}</textarea>
+</div>
 
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="{{ route('admin.store') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
 <script>
     // JavaScript to preview the selected image
     document.getElementById('store_image').addEventListener('change', function() {
@@ -136,17 +168,4 @@
         }
     });
 </script>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a href="{{ route('admin.store') }}" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-</div>
 @endsection

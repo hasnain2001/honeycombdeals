@@ -19,26 +19,33 @@ header("X-Robots-Tag:index, follow");
     <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
 
 
- 
-    <!-- Bootstrap CSS v5.3.2 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-    <link rel="stylesheet" href="{{ asset('front/assets/css/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <meta name="impact-site-verification" value="de4ec733-7974-4b7d-a7aa-611819cb6e0f">
-    
+    <!-- jquery and bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="{{ asset('bootstrap-5.0.2/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/assets/css/style.css')}}">
+
+
+
         <link rel="stylesheet" href="{{ asset('front/assets/css/home.css')}}">
+
+        <style>
+            .categoriees{
+                text-decoration: none;
+                color: black;
+            }
+            .categoriees:hover{
+                text-decoration: none;
+                color: black
+            }
+        </style>
 </head>
 <body>
     <!--<div class="top_header">-->
 <!--    <div class="container-fluid">-->
 <!--        <div class="row align-items-center">-->
 <!--            <div class="col-6 col-lg-4">-->
-             
+
 <!--            </div>-->
 <!--            <div class="col-6 col-lg-8">-->
 <!--                <div class="row align-items-center">-->
@@ -113,63 +120,50 @@ header("X-Robots-Tag:index, follow");
     </nav>
 
     <!-- Top Navbar Section -->
-  
+
             <!-- Search Form -->
-         
+
 
 
 </header>
-  <main>
-<div class="main_content">
-  <div class="container">
-    <div class="row mt-3">
-      <h1 class="text-center display-4">Our Categories</h1>
-
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        @foreach ($category as $category)
-          <div class="col">
-            <div class="card shadow-sm h-100 overflow-hidden">
-              <a href="{{ url('related_category/'. Str::slug($category->title)) }}" >
-                @if ($category->category_image)
-                  <img src="{{ asset('uploads/categories/' . $category->category_image) }}" class="card-img-top" alt="{{ $category->title }} Image" loading="lazy">
-                @else
-                  <div class="d-flex align-items-center justify-content-center vh-100 bg-light text-muted">
-                    <i class="fas fa-image fa-3x"></i>
-                    <p class="ms-2">No image available</p>
+<main>
+    <div class="main_content">
+      <div class="container">
+        <div class="row mt-3">
+          <h1 class="text-center display-4 mb-4">Our Categories</h1>
+  
+          <!-- Grid layout to show 2 categories per row on mobile, 2 on small screens, 3 on medium, and 4 on large screens -->
+          <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach ($category as $category)
+              <div class="col">
+                <div class="card shadow-sm h-100 overflow-hidden">
+                  <a href="{{ route('related_category', ['title' => Str::slug($category->title)]) }}">
+                    @if ($category->category_image)
+                      <img src="{{ asset('uploads/categories/' . $category->category_image) }}" class="card-img-top" alt="{{ $category->title }} Image" loading="lazy">
+                    @else
+                      <div class="d-flex align-items-center justify-content-center" style="height: 200px; background-color: #f8f9fa;">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                        <p class="ms-2 mb-0 text-muted">No image available</p>
+                      </div>
+                    @endif
+                  </a>
+                  <div class="card-body d-flex flex-column justify-content-between">
+                    <a href="{{ route('related_category', ['title' => Str::slug($category->title)]) }}" class="categoriees">
+                      <h5 class="card-title text-center">{{ $category->title }}</h5>
+                    </a>
                   </div>
-                @endif
-              </a>
-              <div class="card-body d-flex flex-column justify-content-between">
-                <a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-dark text-decoration-none stretched-link">
-                  <h5 class="card-title">{{ $category->title }}</h5>
-                </a>
-                <!--<a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="btn btn-primary mt-auto">Explore Now</a>-->
+                </div>
               </div>
-            </div>
+            @endforeach
           </div>
-        @endforeach
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-
-</main>
+  </main>
+  
 
     <x-alert/>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     <script>
 $(document).ready(function() {
     $('#searchInput').autocomplete({
@@ -192,26 +186,6 @@ $(document).ready(function() {
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
- <!-- Include Owl Carousel CSS -->
- <!-- Include jQuery library -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
-
-
-
-<!-- Include Owl Carousel JavaScript -->   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<!-- Initialize Owl Carousel -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!-- Bootstrap JavaScript Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="{{ asset('bootstrap-5.0.2/js/bootstrap.min.js') }}"></script>
 </body>
 </html>

@@ -44,8 +44,8 @@
                     <th>Store Image</th>
                     <th>Network</th>
                     <th>Featured</th>
-                    <th>Top Store</th>
-                    <th>Popular Store</th>
+                    {{-- <th>Top Store</th>
+                    <th>Popular Store</th> --}}
                     <th>Status</th>
                     <th>created at</th>
                     <th> last updated </th>
@@ -61,7 +61,7 @@
                         <td><img class="stores shadow rounded-circle" src="{{ $store->store_image ? asset('uploads/store/' . $store->store_image) : asset('front/assets/images/no-image-found.jpg') }}" alt="Card Image"  style="max-width: 60px;"></td>
                         <td>{{ $store->network }}</td>
                         <td>{{ $store->category }}</td>
-                        <td>
+                        {{-- <td>
                                    @if ($store->authentication == "featured")
             <i class="fas fa-check-circle text-success"></i>
           @else
@@ -75,7 +75,7 @@
           @else
             <i class="fas fa-times-circle text-danger"></i>
           @endif
-                        </td>
+                        </td> --}}
                         <td>
                              @if ($store->status == "disable")
             <i class="fas fa-times-circle text-danger"></i>
@@ -110,8 +110,8 @@
                     <th>Store Image</th>
                     <th>Network</th>
                     <th>Featured</th>
-                    <th>Top Store</th>
-                    <th>Popular Store</th>
+                    {{-- <th>Top Store</th>
+                    <th>Popular Store</th> --}}
                     <th>Status</th>
                          <th>created at</th>
                     <th> last updated </th>

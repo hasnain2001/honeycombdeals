@@ -5,23 +5,45 @@
 @section('main-content')
 
 
-
+<style>
+    @media (max-width: 576px) {
+        .coupon-card {
+            width: 100%; /* Make the coupon cards full width on mobile */
+        }
+    }
+</style>
 
 
 <br>
 
-<div class="container"><h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1></div>
-
 <div class="container">
+    <div class="container">
+        <h1 class="fw-bold home_ts_h2">Latest Discount Codes & Promo Codes From Popular Stores</h1>
+    </div>
     <div id="storeCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             @foreach ($store->chunk(6) as $key => $chunk)
                 <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                     <div class="row">
                         @foreach ($chunk as $storeItem)
-                            <div class="col-md-2">
-                                <a href="{{ route('store_details', ['name' => Str::slug($storeItem->name)]) }}" class="text-dark text-decoration-none">
-                                    <img class="img-fluid mb-2" src="{{ asset('uploads/store/' . $storeItem->store_image) }}" alt="{{ $storeItem->name }}" loading="lazy" />
+                            <div class="col-6 col-sm-4 col-md-2">
+                                @php
+                                $storeurl = $storeItem->name
+                                ?  route('store_details', ['name' => Str::slug($storeItem->name)])
+                                : '#';
+                                @endphp
+                       
+                                <a href="{{$storeurl }}" class="text-dark text-decoration-none">
+                             
+
+                                    <img
+                                        class="img-fluid mb-2"
+                                        src="{{ asset('uploads/store/' . $storeItem->store_image) }}"
+                                        srcset="{{ asset('uploads/store/' . $storeItem->store_image) }} 1x, {{ asset('uploads/store/' . $storeItem->store_image_webp) }} 2x"
+                                        alt="{{ $storeItem->name }}"
+                                        loading="lazy"
+                                        width="200" height="200"
+                                    />
                                     <span class="fw-bold d-block text-center">{{ $storeItem->name }}</span>
                                 </a>
                             </div>
@@ -30,90 +52,82 @@
                 </div>
             @endforeach
         </div>
-       <button class="store-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
-          <span class="store-prev-icon" aria-hidden="true"><i class="fa-solid fa-circle-left"></i></span>
-          <span class="visually-hidden">Previous</span>
+        <button class="store-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
+            <span class="store-prev-icon" aria-hidden="true"><i class="fa-solid fa-circle-left"></i></span>
+            <span class="visually-hidden">Previous</span>
         </button>
 
         <button class="store-next" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
-          <span class="store-next-icon" aria-hidden="true"><i class="fa-solid fa-circle-right"></i></</span>
-          <span class="visually-hidden">Next</span>
+            <span class="store-next-icon" aria-hidden="true"><i class="fa-solid fa-circle-right"></i></span>
+            <span class="visually-hidden">Next</span>
         </button>
     </div>
-</div>
 
 
 
 
-
-<br><br><div class="container"><h2 class="fw-bold home_ts_h2">Today's Top Trending Coupons & Voucher Codes</h2></div>
-
+<br><br>
 <div class="container mt-4">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    @forelse ($topCoupons as $coupon)
-      <div class="col">
-        <div class="coupon-card card shadow-sm border-0 rounded overflow-hidden" style="width: 380px; height:300px; ">
-          <div class="card-body d-flex flex-column justify-content-between h-100 bg-gradient-light">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h5 class="card-title text-dark mb-0">{{ $coupon->store }}</h5>
+    <h2 class="fw-bold home_ts_h2 text-center mb-4">Today's Top Trending Coupons & Voucher Codes</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        @forelse ($topCoupons as $coupon)
+            <div class="col">
+                <div class="coupon-card shadow-lg border-0 rounded overflow-hidden h-100 transition-transform transform hover:scale-105">
+                    <div class="card-body d-flex flex-column justify-content-between h-100">
+                        <div class="mb-3">
+                            <h5 class="card-title text-dark mb-2">{{ $coupon->store }}</h5>
+                            <h3 class="card-text text-dark mb-2">{{ $coupon->name }}</h3>
+                            <p class="card-text text-muted" style="font-style: italic;">{{ Str::limit($coupon->description, 70) }}</p>
+                            <span class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</span>
+                        </div>
+                        <div class="d-grid gap-2 mt-auto">
+                            @if ($coupon->code)
+                            <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Activate Code</a>
 
-            </div>
-            <h3 class="card-text text-dark  mb-2">{{ $coupon->name}}</h3>
-          <p class="card-text text-dark" style="font-style: italic;">{{ Str::limit($coupon->description, 70) }}</p>
+                            <div class="coupon-card d-flex flex-column flex-grow-3 mt-3">
+                                <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
+                                <button class="btn btn-primary btn-sm copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
+                                <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
 
-
-             @if ($coupon->code)
-                                    <button type="button" class="get" data-bs-toggle="modal" data-bs-target="#codeModal{{ $coupon->id }}" onclick="openCouponInNewTab('{{ $coupon->destination_url }}', '{{ $coupon->id }}')">
-                                        Get Code
-                                    </button>
-                                    @else
-                                    <a href="{{ $coupon->destination_url }}" class="get" target="_blank">Get Deal</a>
-                                    <p id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }} Person</p>
-                                    @endif
-          </div>
-        </div>
-      </div>
-          <div class="modal fade" id="codeModal{{ $coupon->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $coupon->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title" id="exampleModalLabel{{ $coupon->id }}">{{ $coupon->name }}</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="mt-auto couponuse"></div>
                             </div>
-                            <div class="modal-body">
-                                <h3>{{ $coupon->code ? $coupon->code : "Code not found" }}</h3>
+                            <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
+                                @csrf
+                                <input type="hidden" name="coupon_id" id="coupon_id">
+                            </form>
+                            @else
+                            <div class="d-grid mt-4">
+                                <a href="{{ $coupon->destination_url }}" class="get" target="_blank" onclick="countAndHandleClicks('{{ $coupon->id }}')">Activate Deal</a>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-dark" onclick="copyCoupon('{{ $coupon->code }}')">Copy</button>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-    @empty
 
-      <!-- Handle case where there are no coupons -->
-    @endforelse
-  </div>
+            </div>
+        @empty
+            <div class="col">
+                <p class="text-center text-muted">No coupons available at the moment.</p>
+            </div>
+        @endforelse
+    </div>
 </div>
 
-
-
-
-
-
 <div class="row mt-5" style="max-width: 95rem;">
-    <h2 class="fw-bold home_ts_h2 text-center">Top Categories</h2>
+    <h2 class="fw-bold home_ts_h text-center">Top Categories</h2>
     @foreach ($categories as $category)
-        <div class="col-12 col-lg-2 col-md-4 col-sm-12 mb-4">
-            <a href="{{ url('related_category/'. Str::slug($category->title)) }}" class="text-decoration-none">
+        <div class="col-6 col-lg-2 col-md-4 col-sm-6 mb-4">
+            <a href="{{ route('related_category', ['title' => Str::slug($category->title)]) }}" class="categoriees" style="text-decoration: none;">
                 <div class="stores home_top_stores shadow p-3 text-center" style="height: 300px;">
                     @if ($category->category_image)
-                        <img src="{{ asset('uploads/categories/' . $category->category_image) }}" alt="{{ $category->title }} Image" style="width: 150px; height: 150px; object-fit: cover;" loading="lazy">
+                        <img src="{{ asset('uploads/categories/' . $category->category_image) }}" class="card-img-top" alt="{{ $category->title }} Image" loading="lazy">
                     @else
                         <p>No image available</p>
                     @endif
-                    <span class="fw-bold d-block mt-2 text-dark">{{ $category->title }}</span>
+
+
+                <span class="fw-bold d-block mt-2 text-dark">{{ $category->title }}</span>
+
                 </div>
             </a>
         </div>

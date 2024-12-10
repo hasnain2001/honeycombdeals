@@ -9,6 +9,8 @@ header("X-Robots-Tag:index, follow");
      <title>{!! $store->title !!}</title>
     <link rel="canonical" href="https://honeycombdeals.com/store/{{ Str::slug($store->name) }}">
         <meta name="description" content="{!! $store->meta_description !!}">
+        <meta name="tag" content="{!! $store->meta_description !!}">
+
 
  <meta name="keywords" content="{!! $store->meta_keyword !!}">
    <meta name="author" content="John Doe">
@@ -36,56 +38,12 @@ header("X-Robots-Tag:index, follow");
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <link rel="stylesheet" href="{{ asset('front/assets/css/home.css')}}">
+        <link rel="stylesheet" href="{{ asset('front/assets/css/storedetail.css') }}">
 
-        <style>
-            .container1{
-                margin: 2%;
+<style>
+.content iframe,.content img,.content video{max-width:100%;height:auto;display:block}.card-store{height:auto;border:1px solid #000}.name{color:purple;background-size:cover;background-position:center;padding:10px;margin-left:2%;margin-right:2%;background-image:url("{{ asset('images/back.jpg') }}")}.content{margin:auto;padding:20px;max-width:100%;word-wrap:break-word;overflow:hidden}.content img{margin:10px 0}.content table{width:100%;border-collapse:collapse;overflow-x:auto;display:block}@media (max-width:768px){.content{padding:10px}}
 
-
-            }
-            .name {
-    background-image: url('{{ asset('images/back.jpg') }}');
-
-    color: purple;
-    background-size: cover;
-    background-position: center;
-    padding: 10px;
-    margin-left: 2%;
-    margin-right: 2%;
-}
-
-.coupon {
-    position: relative;
-    text-align: center;
-}
-.couponuse {
-    top: 20%;
-    position: relative;
-    text-align: left;
-}
-
-.coupon .getcode {
-    position: absolute;
-    bottom: -15px;
-    left: 0px;
-    z-index: 1; /* Ensure the button is on top */
-    color: #fff;
-    background-color: #681668; /* Purple color */
-    border: 1px solid #800080; /* Purple color */
-    border-radius: 90px  30px; /* Border radius of 5px */
-    padding: 10px 20px; /* Adjust padding to increase width */
-    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
-text-align: center;
-}
-.used{
-    top: 0%;
-}
-.codeindex{
-    color: black;
-}
-
-        </style>
-
+</style>
 </head>
 <body>
 
@@ -167,6 +125,32 @@ text-align: center;
         </div>
     </nav>
 </header>
+
+  
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/">Home</a>
+      </li>
+      <li class="breadcrumb-item">
+        @if($store->category)
+        <a href="{{ route('related_category', ['title' => Str::slug($store->category)]) }}">
+            {{ $store->category }}
+        </a>
+    @else
+        <span>No Category</span>
+    @endif
+    
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{{ route('stores') }}">Stores</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ $store->name }}
+      </li>
+    </ol>
+  </nav>
+  
 <main>
     @if(session('success'))
     <div class="alert alert-light alert-dismissable">
@@ -181,82 +165,117 @@ text-align: center;
             <h1 class="text-center">{{ $store->name }}</h1>
         </div>
     </div>
-
+    @php
+    $codeCount = 0;
+    $dealCount = 0;
+@endphp
 
 <div class="container1">
     <div class="row mt-5">
 
-            <div class="col-12 col-lg-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <img src="{{ asset('uploads/store/' . $store->store_image) }}" width="100%" alt="{{ $store->name }}">
-                        @if ($store->description)
-                        <p class="store_detail_description">
-                            <span class="short-description">{!! \Illuminate\Support\Str::words(strip_tags($store->description), 20, '...') !!}</span>
-                            <span class="full-description" style="display: none;">{!! $store->description !!}</span>
-                            @if (strlen(strip_tags($store->description)) > 200)
-                                <a href="#" class=" text-danger toggle-description">Show More</a>
-                            @endif
-                        </p>
+        <div class="col-12 col-lg-3 mb-3">
+            <div class="card-store">
+                <div class="card-body">
+                    <img src="{{ asset('uploads/store/' . $store->store_image) }}" width="100%" alt="{{ $store->name }}">
+                    <span>{{ $store->name }}</span>
+                              <div class="rating-stars text-warning">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star text-dark" data-rating="5"></i>
+                            </div>
+                            <span class="ending-date">
+Created At: {{ \Carbon\Carbon::parse($store->created_at)->setTimezone('Asia/Karachi')->format('d M Y, h:i A') }}
+</span>
+
+                    @if ($store->description)
+                    <p class="store_detail_description d-none d-md-block">
+                        <span class="short-description">{!! \Illuminate\Support\Str::words(strip_tags($store->description), 20, '...') !!}</span>
+                        <span class="full-description" style="display: none;">{!! $store->description !!}</span>
+                        @if (strlen(strip_tags($store->description)) > 200)
+                            <a href="#" class=" text-danger toggle-description">Show More</a>
                         @endif
-                        <a href="{{ $store->url }}" target="_blank" class="btn btn-dark text-white ">Visit Store</a>
-                    </div>
+                    </p>
+                    @endif
+           
+                    {{-- <a href="{{ $store->url }}" target="_blank" class="btn btn-dark text-white ">Visit Website</a> --}}
                 </div>
             </div>
+        </div>
         @endif
         <div class="col-12 col-lg-9">
             <div class="row mb-3">
-                @php
-                    $codeCount = 0;
-                    $dealCount = 0;
-                @endphp
-                @foreach ($coupons as $coupon)
-                <div class="col-12 col-lg-4 col-sm-12 mb-3">
-                    <div class="card" style="height: 400px; max-height:400px;">
-                        <div class="card-body d-flex flex-column">
-                            <br>
-                            <h5>{{ $coupon->name }}</h5>
-                            <br>
-                            @if ($coupon->description)
-                                <p class="card-text font-italic">{!! $coupon->description !!}</p>
-                            @endif
-                            <div> <!-- This div pushes the button to the bottom -->
-                                @if ($coupon->code)
-                                @php $codeCount++; @endphp
-                                <div class="d-grid gap-2">
-                                    <div class="coupon">
-                                        <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Coupon Code</a>
-                                        <br>
-                                        <br>
-                                        <div class="card">
-                                            <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
-                                            <button class="btn btn-primary copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
-                                            <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
-                                        </div>
-                                    </div>
-                                    <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
-                                        @csrf
-                                        <input type="hidden" name="coupon_id" id="coupon_id">
+          
+           @foreach ($coupons as $coupon)
+           <div class="col-12 col-lg-4 col-sm-12 mb-3">
+               <div class="card border-dark ">
+                   <div class="card-body d-flex flex-column justify-content-between">
+                       @php
+                           $store = App\Models\Stores::where('name', $coupon->store)->first();
+                       @endphp
+                       <div class="d-flex justify-content-center align-items-center mb-3" style="height: 200px;">
+                           @if ($store && $store->store_image)
+                               <img src="{{ asset('uploads/store/' . $store->store_image) }}" alt="{{ $store->name }} Image" class="store-image" style="width: 100%; height: 100%; object-fit: cover;">
+                           @else
+                               <span class="no-image-placeholder d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; background-color: #f0f0f0; color: #888; font-size: 14px;">No Image Available</span>
+                           @endif
+                       </div>
 
-                                    <div class="couponuse">
-                                        <p class="used" id="output_{{ $coupon->id }}"> Used By:{{ $coupon->clicks }} </p>
-                                    </div>
-                                </div>
-                                @else
-                                @php $dealCount++; @endphp
-                                <div class="d-grid gap-2">
-                                    <a href="{{ $coupon->destination_url }}" class="get" target="_blank" onclick="countClicks('{{ $coupon->id }}')">Get Deal</a>
-                                    <p class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</p>
-                                </div>
-                            </form>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
+                       <div class="name-section mb-3">
+                           <h5 class="text-left text-name">{{ $coupon->name }}</h5>
+                       </div>
+
+                       <div class="description-section mb-3">
+                           @if ($coupon->description)
+                               <p class="text-left text-description">{!! $coupon->description !!}</p>
+                           @endif
+                       </div>
+
+                       <div class="ending-date-used-section ">
+                           <span class="ending-date">Ending Date: {{ $coupon->ending_date }}</span>
+                           <br>
+                           <span class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</span>
+                       </div>
+
+                       <div class="coupon-section ">
+                           @if ($coupon->code)
+                               @php $codeCount++; @endphp
+                               <div class="d-grid gap-2 flex-grow-1 d-flex flex-column mt-3">
+                                   <div class="coupon">
+                                       <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Activate Code</a>
+
+                                       <div class="coupon-card d-flex flex-column flex-grow-3 mt-3">
+                                           <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
+                                           <button class="btn btn-primary btn-sm copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
+                                           <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
+
+                                           <div class="mt-auto couponuse"></div>
+                                       </div>
+                                   </div>
+                                   <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
+                                       @csrf
+                                       <input type="hidden" name="coupon_id" id="coupon_id">
+                                   </form>
+                               </div>
+                           @else
+                               @php $dealCount++; @endphp
+                               <div class="d-grid mt-3">
+                                   <a href="{{ $coupon->destination_url }}" class="get" target="_blank" onclick="countAndHandleClicks('{{ $coupon->id }}')">Activate Deal</a>
+                               </div>
+                               <br>
+                           @endif
+                       </div>
+                   </div>
+               </div>
+           </div>
+           @endforeach
             </div>
         </div>
+  
+    
+    
+        
 
 
 <div class="totals mt-3 d-none d-lg-block">
@@ -283,39 +302,41 @@ text-align: center;
     </div>
 </div>
   <!-- Totals Section, only visible on desktop -->
-  <div class="container">
-       <h2 class="text-center mb-4">Related Stores</h2>
-
-  </div>
-
-    <div class="container bg-light">
-
-     <div class="carousel-inner bg-light">
-       @foreach ($relatedStores->chunk(20000) as $chunk)
-         <div class="carousel-item bg-light {{ $loop->first ? 'active' : '' }}">
-           <div class="d-flex flex-row flex-nowrap overflow-auto">
-  @foreach ($chunk as $relatedStore)
-              <div class="col-md-4 mb-3">
+  <h4 class="">Related Stores</h4>
+  <div class="container bg-light ">
+  
+    <div class="carousel-inner bg-light">
+      @foreach ($relatedStores as $relatedStore)
+        <div class="carousel-item bg-light {{ $loop->first ? 'active' : '' }}">
+          <div class="d-flex flex-row flex-nowrap overflow-auto custom-scrollbar">
+    
+              <div class="col-md-4 mb-3 mx-2" style="min-width: 250px;">
                 <div class="card shadow-sm h-100">
-                  <a href="{{ route('store_details', ['name' => Str::slug($relatedStore->name)]) }}">
+                    @php
+
+                    $storeurl = $relatedStore->slug
+                    ? route('store_details', ['slug' => Str::slug($relatedStore->slug)])
+                    : '#';
+                    @endphp
+                  <a href="{{$storeurl }}">">
                     <img src="{{ asset('uploads/store/' . $relatedStore->store_image) }}" alt="{{ $relatedStore->name }}" class="card-img-top img-fluid rounded-top">
                   </a>
                   <div class="card-body px-3 py-2">
-                    <h5 class="card-title text-dark">{{ $relatedStore->name }}</h5>
+                    <h5 class="card-title text-dark text-truncate">{{ $relatedStore->name }}</h5>
                     <p class="card-text text-muted">{{ Str::limit($relatedStore->description, 70) }}</p>
-                    <a href="{{ route('store_details', ['name' => Str::slug($relatedStore->name)]) }}" class="get stretched-link text-decoration-none">Visit Store</a>
+                    <a href="{{$storeurl }}" class="btn btn-primary btn-sm stretched-link">Visit Store</a>
                   </div>
                 </div>
               </div>
-            @endforeach
-           </div>
-         </div>
-       @endforeach
-     </div>
+  
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+  
 
-   </div>
-</div>
-
+<br>
      <x-alert/>
 
        <script>

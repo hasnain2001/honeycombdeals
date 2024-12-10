@@ -7,29 +7,26 @@ header("X-Robots-Tag:index, follow");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-@foreach($category as $category)
-
-    <link rel="canonical" href="https://honeycombdeals.com/related_category/{{ Str::slug($category->title) }}">
 
 
 
-
+<title>{{ $category->meta_tag }}</title>
     <!-- Your custom meta tags go here -->
      <meta name="description" content="{!! $category->meta_description !!}">
 
  <meta name="keywords" content="{!! $category->meta_keyword !!}">
+ <link rel="canonical" href="https://honeycombdeals.com/category/{{ Str::slug($category->title) }}">
 
-@endforeach
   <meta name="author" content="John Doe">
  <meta name="robots" content="index, follow">
-  
+
     <link rel="icon" href="{{ asset('front/assets/images/icons.png') }}" type="image/x-icon">
 
 
 
 
 
- 
+
     <!-- Bootstrap CSS v5.3.2 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -65,32 +62,6 @@ header("X-Robots-Tag:index, follow");
 
 </head>
 <body>
-   
-<!--<div class="top_header">-->
-<!--    <div class="container-fluid">-->
-<!--        <div class="row align-items-center">-->
-<!--            <div class="col-6 col-lg-4">-->
-             
-<!--            </div>-->
-<!--            <div class="col-6 col-lg-8">-->
-<!--                <div class="row align-items-center">-->
-<!--                    <div class="col-12 col-lg-6">-->
-<!--                        <div class="top_header_content text-center text-lg-start">-->
-<!--                            <img src="{{ asset('front/assets/images/winter-sale.webp') }}" class="me-2" alt="">-->
-<!--                            <span class="d-block d-lg-inline-block">Prices are Thawing</span>-->
-<!--                            <a href="javascript:void(0);" class="flash_sale d-inline-block mt-2 mt-lg-0 ms-lg-2">-->
-<!--                                Shop Deals Up to 70% Off-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-    <!-- Top Navbar Section -->
 
 
 <header>
@@ -147,8 +118,10 @@ header("X-Robots-Tag:index, follow");
 <br>
 
 <div class="container">
-    <h1>{{ $name }}</h1>
+    <h1>{{  $category->title }}</h1>
+    <p class="h5 m-0">Total stores: <span class="fw-bold">{{ $stores->count() }}</span></p>
 </div>
+
 
 <div class="container my-5">
     @if ($stores->isEmpty())
@@ -181,7 +154,7 @@ header("X-Robots-Tag:index, follow");
 
 
      <x-alert/>
-    
+
             <script>
         function openCouponInNewTab(url, couponId) {
             window.open(url, '_blank');

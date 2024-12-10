@@ -3,6 +3,18 @@
     Create
 @endsection
 @section('main-content')
+<style>
+    /* Apply bold font to the entire select box */
+.select-bold {
+    font-weight: bold;
+}
+
+/* Apply bold font to options in modern browsers */
+select option {
+    font-weight: bold;
+}
+
+</style>
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -13,6 +25,7 @@
             </div>
         </div>
     </section>
+
     <section class="content">
         <div class="container-fluid">
             @if(session('success'))
@@ -21,6 +34,16 @@
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <b>{{ session('success') }}</b>
                 </div>
+            @endif
+            @if ($errors->any())
+            <div  class="alert alert-danger" >
+                <strong>Validation error(s):</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
             @endif
             <form name="CreateStore" id="CreateStore" method="POST" enctype="multipart/form-data" action="{{ route('admin.store.store') }}">
                 @csrf
@@ -31,6 +54,10 @@
                                 <div class="form-group">
                                     <label for="name">Store Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="name" id="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="slug">Url/Slug <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="slug" id="slug" placeholder="define your url" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
@@ -45,15 +72,16 @@
                                     <input type="url" class="form-control" name="destination_url" id="destination_url">
                                 </div>
                                 <div class="form-group">
-                                   
+
                                    <div class="form-group">
     <label for="category">Category <span class="text-danger">*</span></label>
-    <select name="category" id="category" class="form-control">
+    <select name="category" id="category" class="form-control select-bold">
         <option value="" disabled selected>--Select Category--</option>
-        @foreach($categories as $category) 
+        @foreach($categories as $category)
             <option value="{{ $category->title }}">{{ $category->title }}</option>
         @endforeach
     </select>
+
 </div>
 
                                 </div>
@@ -98,7 +126,7 @@
                                     <label for="network">Network <span class="text-danger">*</span></label>
                                     <select name="network" id="network" class="form-control">
                                         <option value="" disabled selected>--Select Network--</option>
-                                        @foreach($networks as $network) 
+                                        @foreach($networks as $network)
                                             <option value="{{ $network->title }}">{{ $network->title }}</option>
                                         @endforeach
                                     </select>
@@ -110,7 +138,37 @@
 
 <!-- Placeholder for displaying selected image -->
 <div id="imagePreview"></div>
+<div class="form-group">
+    <label for="category_image">Main Content</label>
 
+
+     <div id="container">
+         <textarea id="editor" name="content" >
+        </textarea>
+
+</div>
+</div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-between align-items-center">
+                        <div class="btn-group gap-2">
+                          <button type="submit" class="btn btn-success btn-lg">Save</button>
+                          <button type="reset" class=" btn btn-light">Reset</button>
+                          <a href="{{ route('admin.store') }}" class="btn btn-outline-secondary btn-lg">Cancel</a>
+
+                        </div>
+                      </div>
+                      
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // JavaScript to preview the selected image
     document.getElementById('store_image').addEventListener('change', function() {
@@ -130,22 +188,7 @@
             document.getElementById('imagePreview').innerHTML = ''; // Clear preview if no file selected
         }
     });
-</script>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a href="{{ route('admin.store') }}" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
     $(document).ready(function() {
         $('#name').on('input', function() {
             var maxLength = 65; // Maximum allowed characters

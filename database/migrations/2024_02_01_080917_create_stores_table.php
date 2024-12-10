@@ -12,21 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stores', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->string('url');
-            $table->string('destination_url');
-            $table->string('category')->nullable();
-            $table->string('status');
-            $table->string('authentication')->nullable();
-            $table->string('network')->nullable();
-            $table->string('store_image')->nullable();
-             $table->string('title')->nullable();
-            $table->longText('meta_tag')->nullable();
-            $table->longText('meta_keyword')->nullable();
-            $table->longText('meta_description')->nullable();
-            $table->timestamps();
+        $table->id();
+        $table->string('name');
+        $table->string('slug')->unique();
+        $table->longText('description')->nullable();
+        $table->string('url');
+        $table->string('destination_url');
+        $table->string('category')->nullable();
+        $table->string('status');
+        $table->string('authentication')->nullable();
+        $table->longText('content')->nullable();
+       
+        $table->string('network')->nullable();
+        $table->string('store_image')->nullable();
+        $table->string('title')->nullable();
+        $table->longText('meta_tag')->nullable();
+        $table->longText('meta_keyword')->nullable();
+        $table->longText('meta_description')->nullable();
+        $table->timestamps();
         });
     }
 
