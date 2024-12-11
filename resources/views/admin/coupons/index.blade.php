@@ -12,7 +12,6 @@
 
 </style>
     <div class="content-wrapper">
-
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -23,6 +22,17 @@
                         <a href="{{ route('admin.coupon.create') }}" class="btn btn-primary">Add New</a>
                     </div>
                 </div>
+                <form method="GET" action="{{ route('admin.coupon') }}">
+                    <span>Select BY Coupons  Store Name </span>
+                    <select class="form-select form-select-lg mb-3" aria-label="Large select example" name="store" id="category-select" onchange="this.form.submit()">
+                        <option value="">All Coupon</option> <!-- Option to select all stores -->
+                        @foreach($couponstore as $store)
+                            <option value="{{ $store->store }}" {{ $selectedCoupon == $store->store ? 'selected' : '' }} class="text-bold">
+                                {{ $store->store }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
             </div>
         </section>
 
@@ -51,7 +61,7 @@
             <th width="30px">#</th>
             <th>Coupon Name</th>
             <th>Store</th>
-            <th>Never Expire</th>
+            <!--<th>Never Expire</th>-->
             <th>Status</th>
             <th>create at</th>
             <th>Last Updated</th> <!-- Add this column header -->
@@ -66,13 +76,13 @@
                 <td class="pl-3"><i class="fa fa-sort"></i></td>
                 <td>{{ $coupon->name }}</td>
                 <td>{{ $coupon->store }}</td>
-                <td>
-                    @if ($coupon->authentication == "never_expire")
-                        <i class="fa fa-fw fa-check-circle" style="color: blue;"></i>
-                    @else
-                        <i class="fa fa-fw fa-times-circle"style="color:red;"></i>
-                    @endif
-                </td>
+                <!--<td>-->
+                <!--    @if ($coupon->authentication == "never_expire")-->
+                <!--        <i class="fa fa-fw fa-check-circle" style="color: blue;"></i>-->
+                <!--    @else-->
+                <!--        <i class="fa fa-fw fa-times-circle"style="color:red;"></i>-->
+                <!--    @endif-->
+                <!--</td>-->
                 <td>
                    @if ($coupon->status == "disable")
                         <i class="fa fa-fw fa-times-circle" style="color: blue;"></i>
@@ -105,7 +115,7 @@
             <th width="30px">#</th>
             <th>Coupon Name</th>
             <th>Store</th>
-            <th>Never Expire</th>
+            <!--<th>Never Expire</th>-->
             <th>Status</th>
             <th>created at</th>
             <th>Last Updated</th> <!-- Add this column footer -->
@@ -137,7 +147,7 @@
         </section>
 
     </div>
-    
+
 <script>
     // JavaScript to handle the select all functionality
     document.getElementById('select-all').addEventListener('click', function(event) {

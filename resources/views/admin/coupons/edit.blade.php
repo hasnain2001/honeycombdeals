@@ -75,7 +75,7 @@
                                     <select name="store" id="store" class="form-control">
                                         <option value="" disabled selected>{{ $coupons->store }}</option>
                                         @foreach($stores as $store) 
-                                            <option class="text-dark font-weight-bold" value="{{ $store->name }}">{{ $store->name }}</option>
+                                            <option class="text-dark font-weight-bold" value="{{ $store->slug }}">{{ $store->slug }}</option>
                                         @endforeach
                                     </select>
                                 </div>

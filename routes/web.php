@@ -58,6 +58,7 @@ Route::get('/run-migrations', function () {
 
     return "Exit Code: $exitCode <br> Output: <pre>$output</pre>";
 });
+Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');

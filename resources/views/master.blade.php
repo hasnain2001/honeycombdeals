@@ -25,10 +25,7 @@ header("X-Robots-Tag: index, follow");
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/home.css') }}">
-    <link rel="stylesheet" href="{{ asset('bootstrap-5.0.2/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
 
     <!-- Verification Codes -->
     <meta name="partnerboostverifycode" content="32dc01246faccb7f5b3cad5016dd5033" />
@@ -67,14 +64,34 @@ header("X-Robots-Tag: index, follow");
     }
 }
 
-/* Media query for mobile screens */
-@media (max-width: 576px) {
+
+/* For tablets and medium-sized devices (up to 768px) */
+@media (max-width: 768px) {
     .slider-image {
-        height: 200px; /* Smaller height for mobile devices */
-        border-radius: 35px; /* Slightly less rounded corners */
-        box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.15); /* Less shadow on mobile */
+        height: 300px; /* Slightly smaller height */
+        border-radius: 40px; /* Less rounded corners */
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2); /* Reduced shadow */
     }
 }
+
+/* For smaller tablets and large mobile devices (up to 576px) */
+@media (max-width: 576px) {
+    .slider-image {
+        height: 200px; /* Smaller height */
+        border-radius: 35px; /* Slightly less rounded corners */
+        box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.15); /* Less shadow */
+    }
+}
+
+/* For extra small devices (mobile phones, up to 375px) */
+@media (max-width: 375px) {
+    .slider-image {
+        height: 150px; /* Minimum height for smaller devices */
+        border-radius: 25px; /* Subtle rounding */
+        box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.1); /* Minimal shadow */
+    }
+}
+
 
 
 </style>
@@ -85,7 +102,9 @@ header("X-Robots-Tag: index, follow");
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJNM88GL" height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-<x-navbar/>
+
+    <!-- Navbar -->
+ <x-navbar/>
 
     <!-- Slider -->
     <div id="carouselExampleFade" class="carousel slide carousel-fade">
@@ -178,49 +197,10 @@ header("X-Robots-Tag: index, follow");
             copyConfirmation.fadeIn().delay(1000).fadeOut();
         }
 
-        // Initialize autocomplete for search input
-        $(document).ready(function() {
-            $('#searchInput').autocomplete({
-                source: function(request, response) {
-                    $.ajax({
-                        url: '{{ route('search') }}',
-                        dataType: 'json',
-                        data: {
-                            query: request.term
-                        },
-                        success: function(data) {
-                            response(data.stores);
-                        }
-                    });
-                },
-                minLength: 1 // Minimum characters before autocomplete starts
-            });
-        });
 
-        // Toggle description visibility
-        $(document).ready(function () {
-            $('.toggle-description').on('click', function (e) {
-                e.preventDefault();
-                var shortDescription = $(this).siblings('.short-description');
-                var fullDescription = $(this).siblings('.full-description');
-
-                if (shortDescription.is(':visible')) {
-                    shortDescription.hide();
-                    fullDescription.show();
-                    $(this).text('Show Less');
-                } else {
-                    shortDescription.show();
-                    fullDescription.hide();
-                    $(this).text('Show More');
-                }
-            });
-        });
 </script>
-    <!-- Scripts -->
+   
 
-    <script src="{{ asset('bootstrap-5.0.2/js/bootstrap.min.js') }}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
  
 </body>
 </html>

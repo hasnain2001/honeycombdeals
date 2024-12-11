@@ -3,7 +3,7 @@ body {
     padding: 0;
     background-color: white;
 }
-nav {
+.navbar {
     background-color: rgb(93, 25, 130);
 }
 section {

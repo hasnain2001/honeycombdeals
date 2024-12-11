@@ -7,24 +7,44 @@
 
 <style>
 
+/* Main Heading Styles */
 .heading-1 {
-    font-size: 25px; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 28px;
+    font-family: 'Georgia', serif;
     text-align: center;
-    color: #333;
-    margin-bottom: 20px; 
+    color: #434a4b;
+    margin-bottom: 20px;
     line-height: 1.4;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
+/* Subheading Styles */
+.heading-sub {
+    font-size: 24px;
+    font-family: 'Georgia', serif;
+    text-align: center;
+    color: #434a4b;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
 
+/* Hover Effect for Headings */
+.heading-1:hover,
+.heading-sub:hover {
+    transform: translateY(-3px);
+    color: #000000;
+}
 
+/* Media Query for Responsiveness */
 @media screen and (max-width: 786px) {
-    .coupon-card {
-        width: 100%; 
-        margin-bottom: 20px;
-    }
     .heading-1 {
-        font-size: 18px; 
+        font-size: 18px;
+    }
+    .heading-sub {
+        font-size: 16px;
     }
 }
 
@@ -98,15 +118,16 @@
 
 <br><br>
 <div class="container mt-4">
-    <h2 class="fw-bold home_ts_h2 text-center mb-4">Today's Top Trending Coupons & Voucher Codes</h2>
+    <h2 class="heading-sub mb-4">Today's Top Trending Coupons & Voucher Codes</h2>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         @forelse ($topCoupons as $coupon)
             <div class="col">
                 <div class="coupon-card shadow-lg border-0 rounded overflow-hidden h-100 transition-transform transform hover:scale-105">
                     <div class="card-body d-flex flex-column justify-content-between h-100">
                         <div class="mb-3">
-                            <h5 class="card-title text-dark mb-2">{{ $coupon->store }}</h5>
-                            <h3 class="card-text text-dark mb-2">{{ $coupon->name }}</h3>
+                            <span class="card-title text-dark mb-4">{{ $coupon->name }}</span>
+                            <br>
+                            <span class="card-text text-dark mb-2">{{ $coupon->store }}</span>
                             <p class="card-text text-muted" style="font-style: italic;">{{ Str::limit($coupon->description, 70) }}</p>
                             <span class="used" id="output_{{ $coupon->id }}">Used By: {{ $coupon->clicks }}</span>
                         </div>
@@ -143,8 +164,8 @@
     </div>
 </div>
 
-<div class="row mt-5" style="max-width: 95rem;">
-    <h2 class="fw-bold home_ts_h text-center">Top Categories</h2>
+<div class="row mt-5" >
+    <h3 class="heading-sub">Top Categories</h3>
     @foreach ($categories as $category)
         <div class="col-6 col-lg-2 col-md-4 col-sm-6 mb-4">
             <a href="{{ route('related_category', ['title' => Str::slug($category->title)]) }}" class="categoriees" style="text-decoration: none;">
@@ -168,7 +189,7 @@
 
 <br><br><br>
 <div class="col-12">
-  <h2 class="fw-bold home_ts_h2 text-center">Shopping Hacks & Savings Tips & Tricks</h2>
+  <h4 class="heading-sub">Shopping Hacks & Savings Tips & Tricks</h4>
 </div>
 <div class="container bg-light">
 
@@ -181,7 +202,7 @@
                 <div class="card shadow-sm h-100">
                   <img class="cardimg card-img-top img-fluid" src="{{ asset($blog->category_image) }}" alt="Blog Post Image" style="height:200px; width:450px;">
                   <div class="card-body">
-                    <h5 class="card-title">{{ $blog->title }}</h5>
+                    <span class="card-title">{{ $blog->title }}</span>
                     <p class="card-text">{{ $blog->excerpt }}</p>
                           @if ($blog->slug)
                     <a href="{{ route('blog-details', ['slug' => Str::slug($blog->slug)]) }}" class="btn btn-dark stretched-link">Read More</a>

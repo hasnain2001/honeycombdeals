@@ -35,8 +35,8 @@ body {
 }
 
 .card {
-    height: 640px;
-    max-height: 750px;
+    height: 500px;
+ 
     border-radius: 2px;
     border: 1px solid black;
 }
@@ -61,7 +61,7 @@ body {
 }
 
 .name-section, .description-section, .coupon-section {
-    margin: 5px;
+    margin: 0px;
 }
 
 .ending-date-used-section span {
@@ -87,7 +87,4 @@ body {
     margin: 10px 0 16px;
     color: #212529;
     font-weight: 600;
-}
-.store-image{
-    
 }

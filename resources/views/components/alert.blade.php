@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Footer Example</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
-   
+   footer{
+    background-color: rgb(116, 31, 161);
+            color: white;
+            padding: 20px 0;
+   }
         .footer-section a {
             color: white;
             text-decoration: none; /* Remove underline from links */
         }
-
+/* 
         .footer-section a:hover {
             background-color: blue;
         }
-        
+         */
         .footer-made-by a {
             color: white;
             text-decoration: none; /* Remove underline from links */
@@ -24,7 +28,7 @@
 </head>
 <body>
 
-<footer  style="background-color: rgb(116, 31, 161); padding: 20px 0; position: relative; bottom: 0; width: 100%;">
+<footer  >
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-sm-6">
@@ -43,11 +47,14 @@
           <a href="{{ route('term-and-condition') }}"><h6>Terms and Conditions</h6></a>
         </div>
       </div>
-      <div class="col-md-4 col-sm-6">
+      <div class="col-md-4 col-sm-4">
         <div class="footer-section" style="font-size: 14px; color: #fff;">
           <a href="contact"><h6>Contact Us</h6></a>
-          <p>honeycombdeal@gmail.com</p>
-          <p>contact@honeycombdeals.com</p>
+          <ul>
+            <li><a href="mailto:honeycombdeal@gmail.com" class="btn">honeycombdeal@gmail.com</a></li>
+            <li><a href="mailto:contact@honeycombdeals.com" class="btn">contact@honeycombdeals.com</a></li>
+          </ul>
+    
         </div>
       </div>
     </div>
@@ -56,7 +63,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="alpha">
-          <p style="font-size: 12px;"><a href="https://alphaisoft.com" target="blank" class="text-white">Developed by Alpha Ai Solution</a></p>
+          <p style="font-size: 12px;"><a href="https://alphaisoft.com" target="blank" class=" btn text-white">Developed by Alpha Ai Solution</a></p>
         </div>
       </div>
     </div>
@@ -81,6 +88,7 @@
     });
 });
 </script>
+<script src="{{asset('bootstrap-5.0.2/js/bootstrap.min.js')}}"></script>er
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>

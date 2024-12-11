@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>http://127.0.0.1:8000/blog</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/store</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/categories</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/home</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/about</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/contact</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/term-and-condition</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/privacy</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/store/treatwell-discount-code</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/store</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/store/wellgard-uk</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/auctions</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/automotive</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/babies-and-kids</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/books-and-media</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/business-and-finance</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/communication-and-wireless</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/department-stores</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/education</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/electronics</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/events-and-entertainment</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/eyewear</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/food-and-drinks</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/games-and-toys</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/hardware-tools</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/home-and-garden</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/internet</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/music-and-videos</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/office-supplies</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/online-services</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/organizations</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/seasonal</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/pets</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/shoes</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/sports-and-outdoors</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/travel</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/hobbies</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/accessories</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/apparel-clothing</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/arts-and-craft</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/health-and-beauty</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/gifts-and-flowers</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/jwellery-and-wacthes</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/computer-and-software</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/wedding</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/e-commerce</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/underwear</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/slipper</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/appliances-and-electronics</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/housing-solutions</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/category/power-solutions</loc>
+    
+            </url>
+</urlset>

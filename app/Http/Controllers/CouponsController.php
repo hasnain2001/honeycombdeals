@@ -20,8 +20,26 @@ public function coupon(Request $request) {
         return response()->json($coupons);
     }
 
-    $coupons = Coupons::orderByRaw('CAST(`order` AS SIGNED) ASC')->get();
-    return view('admin.coupons.index', compact('coupons'));
+    // Get distinct store names only
+    $couponstore = Coupons::select('store')->distinct()->get();
+    $selectedCoupon = $request->input('store');
+
+    // Initialize query
+    $productsQuery = Coupons::query();
+
+    // Filter by selected store if any
+    if ($selectedCoupon) {
+        $productsQuery->where('store', $selectedCoupon);
+    }
+
+    
+    $coupons = $productsQuery->orderBy('store')
+        ->orderByRaw('CAST(`order` AS SIGNED) ASC')
+        ->orderBy('created_at', 'desc') // Sort by latest created
+        ->limit(200)
+        ->get();
+
+    return view('admin.coupons.index', compact('coupons','couponstore','selectedCoupon'));
 }
 
 

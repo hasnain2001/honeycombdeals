@@ -14,19 +14,15 @@ class StoresController extends Controller
 {
 
 
-       public function top_store() {
-        // Fetch all stores with their respective categories
-   $storesByCategory = Stores ::table('stores')
-        ->select('category', Categories::raw('count(*) as total'))
-        ->groupBy('category')
-        ->get();
-
-        return view('blog', compact('storesByCategory'));
-    }
+   
     public function store() {
-    $stores = Stores::select('id','name', 'store_image','category','status','network','created_at','updated_at',)->orderBy('created_at','desc')->get();
-    return view('admin.stores.index', compact('stores'));
+        $stores = Stores::select('id', 'name', 'store_image', 'category', 'status', 'network','created_at','updated_at')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+                        
+        return view('admin.stores.index', compact('stores'));
     }
+    
     public function create_store() {
         $categories = Categories::all();
         $networks = Networks::all();
