@@ -41,7 +41,7 @@ header("X-Robots-Tag:index, follow");
     <div class="main_content">
       <div class="container">
         <div class="row mt-3">
-          <h1 class="text-center display-4 mb-4">Our Categories</h1>
+          <h1 class="text-center text-capitalize display-4 mb-4">our categories</h1>
   
           <!-- Grid layout to show 2 categories per row on mobile, 2 on small screens, 3 on medium, and 4 on large screens -->
           <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -60,7 +60,7 @@ header("X-Robots-Tag:index, follow");
                   </a>
                   <div class="card-body d-flex flex-column justify-content-between">
                     <a href="{{ route('related_category', ['title' => Str::slug($category->title)]) }}" class="categoriees">
-                      <h5 class="card-title text-center">{{ $category->title }}</h5>
+                      <h5 class="card-title text-capitalize text-center">{{ $category->title }}</h5>
                     </a>
                   </div>
                 </div>

@@ -59,6 +59,7 @@ Route::get('/run-migrations', function () {
     return "Exit Code: $exitCode <br> Output: <pre>$output</pre>";
 });
 Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
@@ -66,7 +67,6 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/store/{slug}', 'StoreDetails')->name('store_details');
     Route::get('/categories', 'categories')->name('categories');
     Route::get('/category/{title}', 'RelatedCategoryStores')->name('related_category');
-    Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
     // Route for the contact
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');

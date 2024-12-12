@@ -21,7 +21,7 @@ class SitemapController extends Controller
 
         // Add pages to the sitemap
         $sitemap->add(Url::create('/blog')->setPriority(1.0));
-        $sitemap->add(Url::create('/store')->setPriority(1.0));
+        $sitemap->add(Url::create('/stores')->setPriority(1.0));
         $sitemap->add(Url::create('/categories')->setPriority(1.0));
         $sitemap->add(Url::create('/home')->setPriority(1.0));
         $sitemap->add(Url::create('/about')->setPriority(1.0));

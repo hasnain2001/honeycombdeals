@@ -57,7 +57,7 @@
                     <tr>
                         <td><input type="checkbox" name="selected_stores[]" value="{{ $store->id }}"></td>
                         <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $store->name }}</td>
+                        <td>{{ $store->slug ?: $store->name  }}</td>
                         <td><img class="stores shadow rounded-circle" src="{{ $store->store_image ? asset('uploads/store/' . $store->store_image) : asset('front/assets/images/no-image-found.jpg') }}" alt="Card Image"  style="max-width: 60px;"></td>
                         <td>{{ $store->network }}</td>
                         <td>{{ $store->category }}</td>

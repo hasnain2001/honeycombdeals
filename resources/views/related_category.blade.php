@@ -67,7 +67,7 @@ header("X-Robots-Tag:index, follow");
 <br>
 
 <div class="container">
-    <h1>{{  $category->title }}</h1>
+    <h1 class=" text-capitalize">{{  $category->title }}</h1>
     <p class="h5 m-0">Total stores: <span class="fw-bold">{{ $stores->count() }}</span></p>
 </div>
 
@@ -110,58 +110,7 @@ header("X-Robots-Tag:index, follow");
 
      <x-alert/>
 
-            <script>
-        function openCouponInNewTab(url, couponId) {
-            window.open(url, '_blank');
-            var modal = new bootstrap.Modal(document.getElementById('codeModal' + couponId));
-            modal.show();
-        }
-    </script>
-    <script>
-$(document).ready(function() {
-    $('#searchInput').autocomplete({
-        source: function(request, response) {
-            $.ajax({
-                url: '{{ route("search") }}',
-                dataType: 'json',
-                data: {
-                    query: request.term
-                },
-                success: function(data) {
-                    response(data.stores);
-                }
-            });
-        },
-        minLength:1 // Minimum characters before autocomplete starts
-    });
-});
 
 
-
-</script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
- <!-- Include Owl Carousel CSS -->
- <!-- Include jQuery library -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
-
-
-
-<!-- Include Owl Carousel JavaScript -->   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-<!-- Initialize Owl Carousel -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!-- Bootstrap JavaScript Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>

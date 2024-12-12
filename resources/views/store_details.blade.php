@@ -94,7 +94,7 @@ margin-top:10px;
                 <a href="{{ route('stores') }}">Stores</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                {{ $store->name }}
+                {{ $store->slug }}
             </li>
         </ol>
     </head>
@@ -122,12 +122,12 @@ margin-top:10px;
 
 <div class="row">
     <!-- Store Description (Left Side) -->
-    <div class="col-10 col-lg-3 mb-1">
+    <div class="col-12 col-lg-3 mb-1 d-none d-md-block">
         <div class="card-store">
             <div class="card-body">
                 <!-- Store Image -->
                 <img src="{{ asset('uploads/store/' . $store->store_image) }}" alt="{{ $store->name }}" class="img-fluid img-thumbnail border-dark" >
-                <span class="store-name d-block font-weight-bold mt-2">{{ $store->name }}</span>
+                <span class="store-name d-block font-weight-bold mt-2">{{ $store->slug }}</span>
                 
                 <!-- Store Rating -->
                 <div class="rating-stars text-warning mb-2">
@@ -269,12 +269,12 @@ margin-top:10px;
                     <div class="card h-100">
                         <a href="{{ $storeurl }}">
                             <img src="{{ asset('uploads/store/' . $relatedStore->store_image) }}" 
-                                 alt="{{ $relatedStore->name }}" 
+                                 alt="{{ $relatedStore->slug }}" 
                                  class="card-img-top img-fluid rounded-top" 
                                  style="height: 150px; object-fit: contain;">
                         </a>
                         <div class="card-body text-center">
-                            <span class="card-title text-dark">{{ $relatedStore->name }}</span>
+                            <span class="card-title text-dark">{{ $relatedStore->slug ?: "Slug not found" }}</span>
                             <div class="d-grid gap-2">
                                 <a href="{{ $storeurl }}" class="btn btn-dark btn-sm">View Store</a>
                             </div>

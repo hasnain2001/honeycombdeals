@@ -94,7 +94,7 @@
                                         loading="lazy"
                                         width="200" height="200"
                                     />
-                                    <span class="fw-bold d-block text-center">{{ $storeItem->name }}</span>
+                                    <span class="fw-bold d-block text-center">{{ $storeItem->slug?:"Slug Not Found" }} relatedStore</span>
                                 </a>
                             </div>
                         @endforeach
@@ -133,15 +133,15 @@
                         </div>
                         <div class="d-grid gap-2 mt-auto">
                             @if ($coupon->code)
-                            <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Activate Code</a>
+    <a href="{{ $coupon->destination_url }}" target="_blank" class="getcode" id="getCode{{ $coupon->id }}" onclick="countAndHandleClicks('{{ $coupon->id }}')">Activate Code</a>
 
-                            <div class="coupon-card d-flex flex-column flex-grow-3 mt-3">
-                                <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
-                                <button class="btn btn-primary btn-sm copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
-                                <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
+                <div class="coupon-card d-flex flex-column flex-grow-3 mt-3">
+                    <span class="codeindex text-dark" style="display: none;" id="codeIndex{{ $coupon->id }}">{{ $coupon->code }}</span>
+                    <button class="btn btn-primary btn-sm copy-btn" style="display: none;" id="copyBtn{{ $coupon->id }}" onclick="copyToClipboard('{{ $coupon->id }}')">Copy Code</button>
+                    <p class="text-success copy-confirmation" style="display: none;" id="copyConfirmation{{ $coupon->id }}">Code copied!</p>
 
-                                <div class="mt-auto couponuse"></div>
-                            </div>
+                    <div class="mt-auto couponuse"></div>
+                </div>
                             <form method="post" action="{{ route('update.clicks') }}" id="clickForm">
                                 @csrf
                                 <input type="hidden" name="coupon_id" id="coupon_id">

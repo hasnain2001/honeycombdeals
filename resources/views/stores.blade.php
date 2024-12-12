@@ -60,7 +60,7 @@ header("X-Robots-Tag:index, follow");
                 </a>
                 <div class="card-body d-flex flex-column justify-content-between">
                   <a href="{{ $storeurl }}" class="text-dark text-decoration-none stretched-link">
-                    <h5 class="card-title">{{ $store->name ?: "Title not found" }}</h5>
+                    <h5 class="card-title">{{ $store->slug ?: $store->name }}</h5>
                   </a>
                 </div>
               </div>
